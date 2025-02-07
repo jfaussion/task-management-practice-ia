@@ -20,7 +20,7 @@ jobs:
           distribution: 'temurin'
       - name: Build Backend
         run: |
-          cd backend
+          cd backend/springboot
           mvn clean package
 
   build-frontend:
@@ -31,6 +31,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
       - name: Install Dependencies
         run: |
           cd frontend

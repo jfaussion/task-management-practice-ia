@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: VARCHAR(255)
+                  type: UUID
                   constraints:
                     primaryKey: true
               - column:
@@ -16,6 +16,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+                    unique: true
               - column:
                   name: role
                   type: VARCHAR(50)
@@ -31,6 +32,9 @@ databaseChangeLog:
                   type: TIMESTAMP
                   constraints:
                     nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
         - sqlFile:
             path: 001-init-users.sql
             relativeToChangelogFile: true
@@ -43,7 +47,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: VARCHAR(255)
+                  type: UUID
                   constraints:
                     primaryKey: true
               - column:
@@ -73,14 +77,16 @@ databaseChangeLog:
               - column:
                   name: updated_at
                   type: TIMESTAMP
-                  constraints:
-                    nullable: false
               - column:
                   name: assignee_id
-                  type: VARCHAR(255)
+                  type: UUID
                   constraints:
                     foreignKeyName: fk_tasks_assignee
                     references: users(id)
+        - addUniqueConstraint:
+            tableName: tasks
+            columnNames: assignee_id,title
+            constraintName: uk_tasks_assignee_title
         - sqlFile:
             path: 002-init-tasks.sql
             relativeToChangelogFile: true 

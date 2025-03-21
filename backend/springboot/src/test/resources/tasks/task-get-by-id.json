@@ -1,0 +1,19 @@
+{
+  "id": "550e8400-e29b-41d4-a716-446655440010",
+  "title": "Task 1",
+  "description": "Description for task 1",
+  "status": "TODO",
+  "priority": "High",
+  "dueDate": "2023-12-01",
+  "createdAt": "2025-03-21T18:55:58.870344",
+  "updatedAt": "2025-03-21T18:55:58.870344",
+  "assigneeId": "550e8400-e29b-41d4-a716-446655440000",
+  "assignee": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "username": "alice",
+    "email": "alice@example.com",
+    "role": "ADMIN",
+    "createdAt": "2025-03-21T18:55:58.79013",
+    "updatedAt": null
+  }
+}

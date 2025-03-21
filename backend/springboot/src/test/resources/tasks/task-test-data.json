@@ -1,0 +1,97 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440010",
+    "title": "Task 1",
+    "description": "Description for task 1",
+    "status": "TODO",
+    "priority": "High",
+    "dueDate": "2023-12-01",
+    "createdAt": "2025-03-21T18:55:58.870344",
+    "updatedAt": "2025-03-21T18:55:58.870344",
+    "assigneeId": "550e8400-e29b-41d4-a716-446655440000",
+    "assignee": {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "username": "alice",
+      "email": "alice@example.com",
+      "role": "ADMIN",
+      "createdAt": "2025-03-21T18:55:58.79013",
+      "updatedAt": null
+    }
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440011",
+    "title": "Task 2",
+    "description": "Description for task 2",
+    "status": "IN_PROGRESS",
+    "priority": "Medium",
+    "dueDate": "2023-12-05",
+    "createdAt": "2025-03-21T18:55:58.870344",
+    "updatedAt": "2025-03-21T18:55:58.870344",
+    "assigneeId": "550e8400-e29b-41d4-a716-446655440001",
+    "assignee": {
+      "id": "550e8400-e29b-41d4-a716-446655440001",
+      "username": "bob",
+      "email": "bob@example.com",
+      "role": "USER",
+      "createdAt": "2025-03-21T18:55:58.79013",
+      "updatedAt": null
+    }
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440012",
+    "title": "Task 3",
+    "description": "Description for task 3",
+    "status": "DONE",
+    "priority": "Low",
+    "dueDate": "2023-12-10",
+    "createdAt": "2025-03-21T18:55:58.870344",
+    "updatedAt": "2025-03-21T18:55:58.870344",
+    "assigneeId": "550e8400-e29b-41d4-a716-446655440002",
+    "assignee": {
+      "id": "550e8400-e29b-41d4-a716-446655440002",
+      "username": "charlie",
+      "email": "charlie@example.com",
+      "role": "USER",
+      "createdAt": "2025-03-21T18:55:58.79013",
+      "updatedAt": null
+    }
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440013",
+    "title": "Task 4",
+    "description": "Description for task 4",
+    "status": "TODO",
+    "priority": "Medium",
+    "dueDate": "2023-12-15",
+    "createdAt": "2025-03-21T18:55:58.870344",
+    "updatedAt": "2025-03-21T18:55:58.870344",
+    "assigneeId": "550e8400-e29b-41d4-a716-446655440003",
+    "assignee": {
+      "id": "550e8400-e29b-41d4-a716-446655440003",
+      "username": "david",
+      "email": "david@example.com",
+      "role": "USER",
+      "createdAt": "2025-03-21T18:55:58.79013",
+      "updatedAt": null
+    }
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440014",
+    "title": "Task 5",
+    "description": "Description for task 5",
+    "status": "IN_PROGRESS",
+    "priority": "High",
+    "dueDate": "2023-12-20",
+    "createdAt": "2025-03-21T18:55:58.870344",
+    "updatedAt": "2025-03-21T18:55:58.870344",
+    "assigneeId": "550e8400-e29b-41d4-a716-446655440004",
+    "assignee": {
+      "id": "550e8400-e29b-41d4-a716-446655440004",
+      "username": "eve",
+      "email": "eve@example.com",
+      "role": "ADMIN",
+      "createdAt": "2025-03-21T18:55:58.79013",
+      "updatedAt": null
+    }
+  }
+]

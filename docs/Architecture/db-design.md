@@ -138,8 +138,8 @@ classDiagram
 - Exemple :
   ```sql
   INSERT INTO users (id, username, role, email, created_at) VALUES
-    ('uuid-1', 'alice', 'ADMIN', 'alice@example.com', now()),
-    ('uuid-2', 'bob', 'USER', 'bob@example.com', now());
+    ('550e8400-e29b-41d4-a716-446655440001', 'alice', 'ADMIN', 'alice@example.com', now()),
+    ('550e8400-e29b-41d4-a716-446655440002', 'bob', 'USER', 'bob@example.com', now());
   ```
 
 ### ✅ Tâches simulées

@@ -1,17 +1,86 @@
 databaseChangeLog:
   - changeSet:
       id: 1
-      author: your-name
+      author: jeremie
       changes:
         - createTable:
-            tableName: example_table
+            tableName: users
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: VARCHAR(255)
                   constraints:
                     primaryKey: true
+              - column:
+                  name: username
+                  type: VARCHAR(255)
+                  constraints:
                     nullable: false
               - column:
-                  name: name
-                  type: varchar(255)
+                  name: role
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - sqlFile:
+            path: 001-init-users.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: 2
+      author: jeremie
+      changes:
+        - createTable:
+            tableName: tasks
+            columns:
+              - column:
+                  name: id
+                  type: VARCHAR(255)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: priority
+                  type: VARCHAR(50)
+              - column:
+                  name: due_date
+                  type: DATE
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: assignee_id
+                  type: VARCHAR(255)
+                  constraints:
+                    foreignKeyName: fk_tasks_assignee
+                    references: users(id)
+        - sqlFile:
+            path: 002-init-tasks.sql
+            relativeToChangelogFile: true 

@@ -1,7 +1,7 @@
 ## 📦 Structure Complète du Projet  
 
 ### 🏗️ Backend (Java Spring Boot - Clean Architecture)  
-📂 `src/main/java/com/example/project/`  
+📂 `src/main/java/com/neosoft/practice_software/`  
 - 📁 `domain/` → **Entités uniquement**.  
 - 📁 `application/`  
   - 📁 `service/` → Logique métier.  

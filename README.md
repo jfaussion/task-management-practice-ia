@@ -37,7 +37,7 @@ Le projet suit une **architecture en monorepo** et est organisé comme suit :
 
 ## 🔧 Installation & Setup
 ### 1️⃣ Prérequis
-Avant de commencer, assurez-vous d’avoir installé :
+Avant de commencer, assurez-vous d'avoir installé :
 - **JDK 21** ([Télécharger ici](https://adoptium.net/))
 - **Maven 3.9+** ([Télécharger ici](https://maven.apache.org/download.cgi))
 - **Node.js 20+ et npm 10+** ([Télécharger ici](https://nodejs.org/))
@@ -87,11 +87,11 @@ cd frontend && ng serve
 
 ## 📝 Bonnes pratiques avec l'IA
 - **Génération automatique de tests unitaires** pour garantir la fiabilité du code.
-- **Utilisation de l’IA pour la documentation** (JavaDoc, descriptions de classes).
+- **Utilisation de l'IA pour la documentation** (JavaDoc, descriptions de classes).
 - **Détection et correction de bugs** assistée par IA.
 
-## 📚 Documentation
-Une documentation détaillée est disponible dans le dossier `docs/Bootstrap/` :
+## 📚 Documentation Globale
+Une documentation détaillée est disponible dans le dossier `docs` :
 
 | Section | Description |
 |---------|------------|
@@ -104,6 +104,13 @@ Une documentation détaillée est disponible dans le dossier `docs/Bootstrap/` :
 | [7 - Sécurité](docs/Bootstrap/7%20-%20Securite.md) | Bonnes pratiques de sécurité |
 | [8 - Observabilité](docs/Bootstrap/8%20-%20Observabilite.md) | Monitoring et logs |
 | [9 - Structure](docs/Bootstrap/9%20-%20Structure.md) | Organisation et structuration du projet |
+
+## 📐 Architecture et Documentation technique
+
+| Section | Description |
+|---------|------------|
+| [Database Design](docs/Architecture/db-design.md) | Conception et structure de la base de données |
+| [API Documentation](docs/Architecture/url-api-structure.md) | Documentation de l'API |
 
 ## 📜 Licence
 Ce projet est sous licence **MIT**.

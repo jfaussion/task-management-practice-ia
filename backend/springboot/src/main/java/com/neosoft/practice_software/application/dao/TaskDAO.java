@@ -1,6 +1,6 @@
 package com.neosoft.practice_software.application.dao;
 
-import com.neosoft.practice_software.domain.model.TaskBO;
+import com.neosoft.practice_software.domain.model.Task;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,7 +15,7 @@ public interface TaskDAO {
      * 
      * @return List of all tasks
      */
-    List<TaskBO> findAll();
+    List<Task> findAll();
     
     /**
      * Find tasks by status.
@@ -23,7 +23,7 @@ public interface TaskDAO {
      * @param status Task status
      * @return List of tasks with the given status
      */
-    List<TaskBO> findByStatus(String status);
+    List<Task> findByStatus(String status);
     
     /**
      * Find tasks by assignee ID.
@@ -31,7 +31,7 @@ public interface TaskDAO {
      * @param assigneeId Assignee ID
      * @return List of tasks assigned to the given user
      */
-    List<TaskBO> findByAssigneeId(UUID assigneeId);
+    List<Task> findByAssigneeId(UUID assigneeId);
     
     /**
      * Find a task by ID.
@@ -39,7 +39,7 @@ public interface TaskDAO {
      * @param id Task ID
      * @return Optional containing the task if found
      */
-    Optional<TaskBO> findById(UUID id);
+    Optional<Task> findById(UUID id);
     
     /**
      * Find a task by title and assignee ID.
@@ -48,7 +48,7 @@ public interface TaskDAO {
      * @param assigneeId Assignee ID
      * @return Optional containing the task if found
      */
-    Optional<TaskBO> findByTitleAndAssigneeId(String title, UUID assigneeId);
+    Optional<Task> findByTitleAndAssigneeId(String title, UUID assigneeId);
     
     /**
      * Save a task.
@@ -56,7 +56,7 @@ public interface TaskDAO {
      * @param task Task to save
      * @return Saved task
      */
-    TaskBO save(TaskBO task);
+    Task save(Task task);
     
     /**
      * Update a task.
@@ -64,7 +64,7 @@ public interface TaskDAO {
      * @param task Task to update
      * @return Updated task
      */
-    TaskBO update(TaskBO task);
+    Task update(Task task);
     
     /**
      * Delete a task.

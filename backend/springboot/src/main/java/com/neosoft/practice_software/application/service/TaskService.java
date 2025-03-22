@@ -1,6 +1,6 @@
 package com.neosoft.practice_software.application.service;
 
-import com.neosoft.practice_software.domain.model.TaskBO;
+import com.neosoft.practice_software.domain.model.Task;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,7 +15,7 @@ public interface TaskService {
      * 
      * @return List of all tasks
      */
-    List<TaskBO> getAllTasks();
+    List<Task> getAllTasks();
     
     /**
      * Get tasks by status.
@@ -23,7 +23,7 @@ public interface TaskService {
      * @param status Task status
      * @return List of tasks with the given status
      */
-    List<TaskBO> getTasksByStatus(String status);
+    List<Task> getTasksByStatus(String status);
     
     /**
      * Get tasks by assignee.
@@ -31,7 +31,7 @@ public interface TaskService {
      * @param assigneeId Assignee ID
      * @return List of tasks assigned to the given user
      */
-    List<TaskBO> getTasksByAssignee(UUID assigneeId);
+    List<Task> getTasksByAssignee(UUID assigneeId);
     
     /**
      * Get a task by ID.
@@ -39,7 +39,7 @@ public interface TaskService {
      * @param id Task ID
      * @return Optional containing the task if found
      */
-    Optional<TaskBO> getTaskById(UUID id);
+    Optional<Task> getTaskById(UUID id);
     
     /**
      * Create a new task.
@@ -47,7 +47,7 @@ public interface TaskService {
      * @param task Task to create
      * @return Created task
      */
-    TaskBO createTask(TaskBO task);
+    Task createTask(Task task);
     
     /**
      * Update a task.
@@ -56,7 +56,7 @@ public interface TaskService {
      * @param task Task data to update
      * @return Updated task
      */
-    TaskBO updateTask(UUID id, TaskBO task);
+    Task updateTask(UUID id, Task task);
     
     /**
      * Delete a task.
@@ -73,7 +73,7 @@ public interface TaskService {
      * @param assigneeId Assignee ID (null to unassign)
      * @return Updated task
      */
-    TaskBO assignTask(UUID taskId, UUID assigneeId);
+    Task assignTask(UUID taskId, UUID assigneeId);
     
     /**
      * Update the status of a task.
@@ -82,7 +82,7 @@ public interface TaskService {
      * @param status New status
      * @return Updated task
      */
-    TaskBO updateTaskStatus(UUID taskId, String status);
+    Task updateTaskStatus(UUID taskId, String status);
     
     /**
      * Estimate the time required to complete a task.

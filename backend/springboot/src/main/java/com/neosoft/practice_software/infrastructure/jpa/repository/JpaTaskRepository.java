@@ -12,7 +12,7 @@ import java.util.UUID;
  * JPA Repository for TaskEntity.
  */
 @Repository
-public interface TaskRepository extends JpaRepository<TaskEntity, UUID> {
+public interface JpaTaskRepository extends JpaRepository<TaskEntity, UUID> {
     
     /**
      * Find tasks by status.

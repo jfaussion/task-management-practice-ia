@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskBO {
+public class Task {
     private UUID id;
     private String title;
     private String description;
@@ -23,5 +23,5 @@ public class TaskBO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID assigneeId;
-    private UserBO assignee;
+    private User assignee;
 } 

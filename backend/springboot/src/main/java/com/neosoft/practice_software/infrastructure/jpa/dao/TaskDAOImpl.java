@@ -1,10 +1,10 @@
 package com.neosoft.practice_software.infrastructure.jpa.dao;
 
 import com.neosoft.practice_software.application.dao.TaskDAO;
-import com.neosoft.practice_software.domain.model.TaskBO;
+import com.neosoft.practice_software.domain.model.Task;
 import com.neosoft.practice_software.infrastructure.jpa.entity.TaskEntity;
 import com.neosoft.practice_software.infrastructure.jpa.mapper.TaskEntityMapper;
-import com.neosoft.practice_software.infrastructure.jpa.repository.TaskRepository;
+import com.neosoft.practice_software.infrastructure.jpa.repository.JpaTaskRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -18,41 +18,41 @@ import java.util.UUID;
 @Repository
 public class TaskDAOImpl implements TaskDAO {
     
-    private final TaskRepository repository;
+    private final JpaTaskRepository repository;
     private final TaskEntityMapper mapper;
     
-    public TaskDAOImpl(TaskRepository repository, TaskEntityMapper mapper) {
+    public TaskDAOImpl(JpaTaskRepository repository, TaskEntityMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
     
     @Override
-    public List<TaskBO> findAll() {
+    public List<Task> findAll() {
         return mapper.toBOs(repository.findAll());
     }
     
     @Override
-    public List<TaskBO> findByStatus(String status) {
+    public List<Task> findByStatus(String status) {
         return mapper.toBOs(repository.findByStatus(status));
     }
     
     @Override
-    public List<TaskBO> findByAssigneeId(UUID assigneeId) {
+    public List<Task> findByAssigneeId(UUID assigneeId) {
         return mapper.toBOs(repository.findByAssigneeId(assigneeId));
     }
     
     @Override
-    public Optional<TaskBO> findById(UUID id) {
+    public Optional<Task> findById(UUID id) {
         return repository.findById(id).map(mapper::toBO);
     }
     
     @Override
-    public Optional<TaskBO> findByTitleAndAssigneeId(String title, UUID assigneeId) {
+    public Optional<Task> findByTitleAndAssigneeId(String title, UUID assigneeId) {
         return repository.findByTitleAndAssigneeId(title, assigneeId).map(mapper::toBO);
     }
     
     @Override
-    public TaskBO save(TaskBO task) {
+    public Task save(Task task) {
         TaskEntity entity = mapper.toEntity(task);
         
         // Set creation and update dates if not already set
@@ -67,7 +67,7 @@ public class TaskDAOImpl implements TaskDAO {
     }
     
     @Override
-    public TaskBO update(TaskBO task) {
+    public Task update(Task task) {
         // First check if the task exists
         Optional<TaskEntity> existingTaskOpt = repository.findById(task.getId());
         

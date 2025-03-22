@@ -1,6 +1,6 @@
 package com.neosoft.practice_software.infrastructure.api.mapper;
 
-import com.neosoft.practice_software.domain.model.UserBO;
+import com.neosoft.practice_software.domain.model.User;
 import com.neosoft.practice_software.infrastructure.api.dto.CreateUserDTO;
 import com.neosoft.practice_software.infrastructure.api.dto.UserDTO;
 import org.mapstruct.Mapper;
@@ -9,7 +9,7 @@ import org.mapstruct.MappingTarget;
 import java.util.List;
 
 /**
- * Mapper for converting between UserDTO and UserBO.
+ * Mapper for converting between UserDTO and User (Business Object).
  */
 @Mapper(componentModel = "spring")
 public interface UserDTOMapper {
@@ -20,7 +20,7 @@ public interface UserDTOMapper {
      * @param bo The business object to convert
      * @return The converted DTO
      */
-    UserDTO toDTO(UserBO bo);
+    UserDTO toDTO(User bo);
     
     /**
      * Convert UserDTO to UserBO.
@@ -28,7 +28,7 @@ public interface UserDTOMapper {
      * @param dto The DTO to convert
      * @return The converted business object
      */
-    UserBO toBO(UserDTO dto);
+    User toBO(UserDTO dto);
     
     /**
      * Convert CreateUserDTO to UserBO.
@@ -36,7 +36,7 @@ public interface UserDTOMapper {
      * @param dto The DTO to convert
      * @return The converted business object
      */
-    UserBO toBO(CreateUserDTO dto);
+    User toBO(CreateUserDTO dto);
     
     /**
      * Convert a list of UserBO to a list of UserDTO.
@@ -44,7 +44,7 @@ public interface UserDTOMapper {
      * @param bos The business objects to convert
      * @return The converted DTOs
      */
-    List<UserDTO> toDTOs(List<UserBO> bos);
+    List<UserDTO> toDTOs(List<User> bos);
     
     /**
      * Update a UserBO from a UserDTO.
@@ -52,7 +52,7 @@ public interface UserDTOMapper {
      * @param dto The DTO with updated values
      * @param bo The business object to update
      */
-    void updateBOFromDTO(UserDTO dto, @MappingTarget UserBO bo);
+    void updateBOFromDTO(UserDTO dto, @MappingTarget User bo);
     
     /**
      * Update a UserBO from a CreateUserDTO.
@@ -60,5 +60,5 @@ public interface UserDTOMapper {
      * @param dto The DTO with updated values
      * @param bo The business object to update
      */
-    void updateBOFromDTO(CreateUserDTO dto, @MappingTarget UserBO bo);
+    void updateBOFromDTO(CreateUserDTO dto, @MappingTarget User bo);
 } 

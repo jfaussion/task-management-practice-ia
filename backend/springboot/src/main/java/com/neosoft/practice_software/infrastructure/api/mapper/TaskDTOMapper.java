@@ -1,6 +1,6 @@
 package com.neosoft.practice_software.infrastructure.api.mapper;
 
-import com.neosoft.practice_software.domain.model.TaskBO;
+import com.neosoft.practice_software.domain.model.Task;
 import com.neosoft.practice_software.infrastructure.api.dto.CreateTaskDTO;
 import com.neosoft.practice_software.infrastructure.api.dto.TaskDTO;
 import org.mapstruct.Mapper;
@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 import java.util.List;
 
 /**
- * Mapper for converting between TaskDTO and TaskBO.
+ * Mapper for converting between TaskDTO and Task (Business Object).
  */
 @Mapper(componentModel = "spring", uses = {UserDTOMapper.class})
 public interface TaskDTOMapper {
@@ -22,7 +22,7 @@ public interface TaskDTOMapper {
      * @return The converted DTO
      */
     @Mapping(source = "assignee", target = "assignee")
-    TaskDTO toDTO(TaskBO bo);
+    TaskDTO toDTO(Task bo);
     
     /**
      * Convert TaskDTO to TaskBO.
@@ -30,7 +30,7 @@ public interface TaskDTOMapper {
      * @param dto The DTO to convert
      * @return The converted business object
      */
-    TaskBO toBO(TaskDTO dto);
+    Task toBO(TaskDTO dto);
     
     /**
      * Convert CreateTaskDTO to TaskBO.
@@ -38,7 +38,7 @@ public interface TaskDTOMapper {
      * @param dto The DTO to convert
      * @return The converted business object
      */
-    TaskBO toBO(CreateTaskDTO dto);
+    Task toBO(CreateTaskDTO dto);
     
     /**
      * Convert a list of TaskBO to a list of TaskDTO.
@@ -46,7 +46,7 @@ public interface TaskDTOMapper {
      * @param bos The business objects to convert
      * @return The converted DTOs
      */
-    List<TaskDTO> toDTOs(List<TaskBO> bos);
+    List<TaskDTO> toDTOs(List<Task> bos);
     
     /**
      * Update a TaskBO from a TaskDTO.
@@ -54,7 +54,7 @@ public interface TaskDTOMapper {
      * @param dto The DTO with updated values
      * @param bo The business object to update
      */
-    void updateBOFromDTO(TaskDTO dto, @MappingTarget TaskBO bo);
+    void updateBOFromDTO(TaskDTO dto, @MappingTarget Task bo);
     
     /**
      * Update a TaskBO from a CreateTaskDTO.
@@ -62,5 +62,5 @@ public interface TaskDTOMapper {
      * @param dto The DTO with updated values
      * @param bo The business object to update
      */
-    void updateBOFromDTO(CreateTaskDTO dto, @MappingTarget TaskBO bo);
+    void updateBOFromDTO(CreateTaskDTO dto, @MappingTarget Task bo);
 } 

@@ -19,6 +19,12 @@
 - 📄 `run.sh` → Lancer backend + frontend.  
 - 📄 `setup-db.sh` → Initialisation de la BDD PostgreSQL via Docker.  
 
+
+### 📊 Diagramme de l'Architecture
+
+Pour une vue d'ensemble de l'architecture du projet, veuillez consulter le [diagramme d'architecture Java Spring boot](../../backend/springboot/docs/clean-archi-diagram.md).
+
+
 ---
 
 ### 🎨 Frontend (Angular)  

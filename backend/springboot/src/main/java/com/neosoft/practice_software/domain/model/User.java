@@ -1,4 +1,4 @@
-package com.neosoft.practice_software.domain.entity;
+package com.neosoft.practice_software.domain.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -6,8 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 /**
- * User entity representing a user in the system.
+ * Business Object for User.
  */
 @Data
 @NoArgsConstructor
@@ -19,5 +20,4 @@ public class User {
     private String role;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
 } 

@@ -1,10 +1,10 @@
 package com.neosoft.practice_software.infrastructure.jpa.dao;
 
 import com.neosoft.practice_software.application.dao.UserDAO;
-import com.neosoft.practice_software.domain.model.UserBO;
+import com.neosoft.practice_software.domain.model.User;
 import com.neosoft.practice_software.infrastructure.jpa.entity.UserEntity;
 import com.neosoft.practice_software.infrastructure.jpa.mapper.UserEntityMapper;
-import com.neosoft.practice_software.infrastructure.jpa.repository.UserRepository;
+import com.neosoft.practice_software.infrastructure.jpa.repository.JpaUserRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -18,31 +18,31 @@ import java.util.UUID;
 @Repository
 public class UserDAOImpl implements UserDAO {
     
-    private final UserRepository repository;
+    private final JpaUserRepository repository;
     private final UserEntityMapper mapper;
     
-    public UserDAOImpl(UserRepository repository, UserEntityMapper mapper) {
+    public UserDAOImpl(JpaUserRepository repository, UserEntityMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
     
     @Override
-    public List<UserBO> findAll() {
+    public List<User> findAll() {
         return mapper.toBOs(repository.findAll());
     }
     
     @Override
-    public Optional<UserBO> findById(UUID id) {
+    public Optional<User> findById(UUID id) {
         return repository.findById(id).map(mapper::toBO);
     }
     
     @Override
-    public Optional<UserBO> findByUsername(String username) {
+    public Optional<User> findByUsername(String username) {
         return repository.findByUsername(username).map(mapper::toBO);
     }
     
     @Override
-    public UserBO save(UserBO user) {
+    public User save(User user) {
         UserEntity entity = mapper.toEntity(user);
         
         // Set creation and update dates if not already set
@@ -57,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
     }
     
     @Override
-    public UserBO update(UserBO user) {
+    public User update(User user) {
         // First check if the user exists
         Optional<UserEntity> existingUserOpt = repository.findById(user.getId());
         

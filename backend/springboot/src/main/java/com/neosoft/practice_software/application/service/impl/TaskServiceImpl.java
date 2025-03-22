@@ -3,7 +3,7 @@ package com.neosoft.practice_software.application.service.impl;
 import com.neosoft.practice_software.application.dao.TaskDAO;
 import com.neosoft.practice_software.application.dao.UserDAO;
 import com.neosoft.practice_software.application.service.TaskService;
-import com.neosoft.practice_software.domain.model.TaskBO;
+import com.neosoft.practice_software.domain.model.Task;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,19 +27,19 @@ public class TaskServiceImpl implements TaskService {
     
     @Override
     @Transactional(readOnly = true)
-    public List<TaskBO> getAllTasks() {
+    public List<Task> getAllTasks() {
         return taskDAO.findAll();
     }
     
     @Override
     @Transactional(readOnly = true)
-    public List<TaskBO> getTasksByStatus(String status) {
+    public List<Task> getTasksByStatus(String status) {
         return taskDAO.findByStatus(status);
     }
     
     @Override
     @Transactional(readOnly = true)
-    public List<TaskBO> getTasksByAssignee(UUID assigneeId) {
+    public List<Task> getTasksByAssignee(UUID assigneeId) {
         // Verify that the user exists
         if (!userDAO.existsById(assigneeId)) {
             throw new IllegalArgumentException("User not found with ID: " + assigneeId);
@@ -50,13 +50,13 @@ public class TaskServiceImpl implements TaskService {
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<TaskBO> getTaskById(UUID id) {
+    public Optional<Task> getTaskById(UUID id) {
         return taskDAO.findById(id);
     }
     
     @Override
     @Transactional
-    public TaskBO createTask(TaskBO task) {
+    public Task createTask(Task task) {
         // Ensure new task has no ID (will be generated)
         task.setId(null);
         
@@ -77,7 +77,7 @@ public class TaskServiceImpl implements TaskService {
     
     @Override
     @Transactional
-    public TaskBO updateTask(UUID id, TaskBO task) {
+    public Task updateTask(UUID id, Task task) {
         // Ensure the ID is set to the path ID
         task.setId(id);
         
@@ -93,9 +93,9 @@ public class TaskServiceImpl implements TaskService {
         }
         
         // Get the original task to check if title or assignee changed
-        Optional<TaskBO> originalTaskOpt = taskDAO.findById(id);
+        Optional<Task> originalTaskOpt = taskDAO.findById(id);
         if (originalTaskOpt.isPresent()) {
-            TaskBO originalTask = originalTaskOpt.get();
+            Task originalTask = originalTaskOpt.get();
             
             // Check for title uniqueness per assignee if title or assignee changed
             if (assigneeId != null && task.getTitle() != null && 
@@ -122,9 +122,9 @@ public class TaskServiceImpl implements TaskService {
     
     @Override
     @Transactional
-    public TaskBO assignTask(UUID taskId, UUID assigneeId) {
+    public Task assignTask(UUID taskId, UUID assigneeId) {
         // Get the task
-        TaskBO task = taskDAO.findById(taskId)
+        Task task = taskDAO.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found with ID: " + taskId));
         
         // Verify that the assignee exists if provided
@@ -147,9 +147,9 @@ public class TaskServiceImpl implements TaskService {
     
     @Override
     @Transactional
-    public TaskBO updateTaskStatus(UUID taskId, String status) {
+    public Task updateTaskStatus(UUID taskId, String status) {
         // Get the task
-        TaskBO task = taskDAO.findById(taskId)
+        Task task = taskDAO.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found with ID: " + taskId));
         
         // Validate status (should be done with an enum in a real application)
@@ -167,7 +167,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional(readOnly = true)
     public double estimateTaskTime(UUID taskId) {
         // Get the task
-        TaskBO task = taskDAO.findById(taskId)
+        Task task = taskDAO.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found with ID: " + taskId));
         
         // Simple estimation logic based on task properties

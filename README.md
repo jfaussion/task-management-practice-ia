@@ -63,7 +63,7 @@ Lancer le backend et le frontend en parallèle :
 Ou manuellement :
 ```bash
 # Lancer le backend
-cd backend && mvn spring-boot:run
+cd backend/springboot && mvn spring-boot:run
 
 # Lancer le frontend
 cd frontend && ng serve

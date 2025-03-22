@@ -2,7 +2,7 @@ package com.neosoft.practice_software.application.service.impl;
 
 import com.neosoft.practice_software.application.dao.UserDAO;
 import com.neosoft.practice_software.application.service.UserService;
-import com.neosoft.practice_software.domain.model.UserBO;
+import com.neosoft.practice_software.domain.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,25 +24,25 @@ public class UserServiceImpl implements UserService {
     
     @Override
     @Transactional(readOnly = true)
-    public List<UserBO> getAllUsers() {
+    public List<User> getAllUsers() {
         return userDAO.findAll();
     }
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<UserBO> getUserById(UUID id) {
+    public Optional<User> getUserById(UUID id) {
         return userDAO.findById(id);
     }
     
     @Override
     @Transactional(readOnly = true)
-    public Optional<UserBO> getUserByUsername(String username) {
+    public Optional<User> getUserByUsername(String username) {
         return userDAO.findByUsername(username);
     }
     
     @Override
     @Transactional
-    public UserBO createUser(UserBO user) {
+    public User createUser(User user) {
         // Ensure new user has no ID (will be generated)
         user.setId(null);
         return userDAO.save(user);
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     @Transactional
-    public UserBO updateUser(UUID id, UserBO user) {
+    public User updateUser(UUID id, User user) {
         // Ensure the ID is set to the path ID
         user.setId(id);
         

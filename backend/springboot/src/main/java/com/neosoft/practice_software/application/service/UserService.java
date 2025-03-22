@@ -1,6 +1,6 @@
 package com.neosoft.practice_software.application.service;
 
-import com.neosoft.practice_software.domain.model.UserBO;
+import com.neosoft.practice_software.domain.model.User;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,7 +15,7 @@ public interface UserService {
      * 
      * @return List of all users
      */
-    List<UserBO> getAllUsers();
+    List<User> getAllUsers();
     
     /**
      * Get a user by ID.
@@ -23,7 +23,7 @@ public interface UserService {
      * @param id User ID
      * @return Optional containing the user if found
      */
-    Optional<UserBO> getUserById(UUID id);
+    Optional<User> getUserById(UUID id);
     
     /**
      * Get a user by username.
@@ -31,7 +31,7 @@ public interface UserService {
      * @param username Username
      * @return Optional containing the user if found
      */
-    Optional<UserBO> getUserByUsername(String username);
+    Optional<User> getUserByUsername(String username);
     
     /**
      * Create a new user.
@@ -39,7 +39,7 @@ public interface UserService {
      * @param user User to create
      * @return Created user
      */
-    UserBO createUser(UserBO user);
+    User createUser(User user);
     
     /**
      * Update a user.
@@ -48,7 +48,7 @@ public interface UserService {
      * @param user User data to update
      * @return Updated user
      */
-    UserBO updateUser(UUID id, UserBO user);
+    User updateUser(UUID id, User user);
     
     /**
      * Delete a user.

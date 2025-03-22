@@ -1,6 +1,6 @@
 package com.neosoft.practice_software.application.dao;
 
-import com.neosoft.practice_software.domain.model.UserBO;
+import com.neosoft.practice_software.domain.model.User;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,7 +15,7 @@ public interface UserDAO {
      * 
      * @return List of all users
      */
-    List<UserBO> findAll();
+    List<User> findAll();
     
     /**
      * Find a user by ID.
@@ -23,7 +23,7 @@ public interface UserDAO {
      * @param id User ID
      * @return Optional containing the user if found
      */
-    Optional<UserBO> findById(UUID id);
+    Optional<User> findById(UUID id);
     
     /**
      * Find a user by username.
@@ -31,7 +31,7 @@ public interface UserDAO {
      * @param username Username
      * @return Optional containing the user if found
      */
-    Optional<UserBO> findByUsername(String username);
+    Optional<User> findByUsername(String username);
     
     /**
      * Save a user.
@@ -39,7 +39,7 @@ public interface UserDAO {
      * @param user User to save
      * @return Saved user
      */
-    UserBO save(UserBO user);
+    User save(User user);
     
     /**
      * Update a user.
@@ -47,7 +47,7 @@ public interface UserDAO {
      * @param user User to update
      * @return Updated user
      */
-    UserBO update(UserBO user);
+    User update(User user);
     
     /**
      * Delete a user.

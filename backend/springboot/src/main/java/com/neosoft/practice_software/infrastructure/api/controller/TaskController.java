@@ -55,12 +55,6 @@ public class TaskController {
         return ResponseEntity.ok(taskDTOMapper.toDTO(updatedTask));
     }
     
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable UUID id) {
-        boolean deleted = taskService.deleteTask(id);
-        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-    
     @PutMapping("/{id}/assign")
     public ResponseEntity<TaskDTO> assignTask(@PathVariable UUID id, @RequestParam UUID assigneeId) {
         Task updatedTask = taskService.assignTask(id, assigneeId);

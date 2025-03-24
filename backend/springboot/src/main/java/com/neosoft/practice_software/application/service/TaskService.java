@@ -59,14 +59,6 @@ public interface TaskService {
     Task updateTask(UUID id, Task task);
     
     /**
-     * Delete a task.
-     * 
-     * @param id Task ID
-     * @return true if the task was deleted
-     */
-    boolean deleteTask(UUID id);
-    
-    /**
      * Assign a task to a user.
      * 
      * @param taskId Task ID

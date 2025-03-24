@@ -87,11 +87,6 @@ public class TaskDAOImpl implements TaskDAO {
     }
     
     @Override
-    public void deleteById(UUID id) {
-        repository.deleteById(id);
-    }
-    
-    @Override
     public boolean existsById(UUID id) {
         return repository.existsById(id);
     }

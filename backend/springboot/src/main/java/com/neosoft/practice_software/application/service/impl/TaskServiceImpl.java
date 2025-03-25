@@ -110,18 +110,6 @@ public class TaskServiceImpl implements TaskService {
     
     @Override
     @Transactional
-    public boolean deleteTask(UUID id) {
-        // Check if task exists
-        if (!taskDAO.existsById(id)) {
-            return false;
-        }
-        
-        taskDAO.deleteById(id);
-        return true;
-    }
-    
-    @Override
-    @Transactional
     public Task assignTask(UUID taskId, UUID assigneeId) {
         // Get the task
         Task task = taskDAO.findById(taskId)

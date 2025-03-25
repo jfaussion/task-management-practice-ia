@@ -65,13 +65,7 @@ public interface TaskDAO {
      * @return Updated task
      */
     Task update(Task task);
-    
-    /**
-     * Delete a task.
-     * 
-     * @param id Task ID
-     */
-    void deleteById(UUID id);
+
     
     /**
      * Check if a task exists by ID.

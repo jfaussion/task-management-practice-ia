@@ -19,7 +19,7 @@ src/
 ├── infrastructure/
 │   ├── api/
 │   │   └── task.controller.ts
-│   └── jpa/
+│   └── data/
 │       ├── dao/
 │       │   └── task.dao.impl.ts          # Implémentation DAO
 │       └── repository/

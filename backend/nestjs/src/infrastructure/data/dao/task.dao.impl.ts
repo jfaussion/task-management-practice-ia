@@ -43,9 +43,9 @@ export class TaskDaoImpl implements ITaskDao {
   async create(task: Partial<Task>): Promise<Task> {
     const createdTask = await this.prisma.task.create({
       data: {
-        title: task.title,
+        title: task.title || '',
         description: task.description,
-        status: task.status,
+        status: task.status || '',
         priority: task.priority,
         dueDate: task.dueDate,
         assigneeId: task.assigneeId,

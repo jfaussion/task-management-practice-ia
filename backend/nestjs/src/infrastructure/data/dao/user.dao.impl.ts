@@ -22,9 +22,9 @@ export class UserDaoImpl implements IUserDao {
   async create(user: Partial<User>): Promise<User> {
     const createdUser = await this.prisma.user.create({
       data: {
-        username: user.username,
-        email: user.email,
-        role: user.role,
+        username: user.username || '',
+        email: user.email || '',
+        role: user.role || '',
       },
     });
     return this.mapToUser(createdUser);

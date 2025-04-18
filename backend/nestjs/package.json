@@ -8,8 +8,8 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start": "prisma generate && prisma migrate deploy && nest start",
+    "start:dev": "prisma generate && prisma migrate deploy && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -17,7 +17,12 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "prisma:generate": "prisma generate --schema=prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate deploy",
+    "prisma:reset": "prisma migrate reset --force",
+    "prisma:diagnose": "prisma generate && node -r dotenv/config -e \"console.log('Prisma Client Path:', require('path').resolve('./generated/prisma')); console.log('Database URL:', process.env.DATABASE_URL); console.log('Current Directory:', process.cwd());\"",
+    "db:setup": "prisma generate && prisma migrate deploy"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

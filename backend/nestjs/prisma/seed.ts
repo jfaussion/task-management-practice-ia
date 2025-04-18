@@ -3,83 +3,149 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  // Create sample users
-  const user1 = await prisma.user.upsert({
-    where: { username: 'john_doe' },
+  // Create users from SQL file
+  const alice = await prisma.user.upsert({
+    where: { username: 'alice' },
     update: {},
     create: {
-      username: 'john_doe',
-      email: 'john@example.com',
-      role: 'USER',
-    },
-  });
-
-  const user2 = await prisma.user.upsert({
-    where: { username: 'jane_smith' },
-    update: {},
-    create: {
-      username: 'jane_smith',
-      email: 'jane@example.com',
+      id: '550e8400-e29b-41d4-a716-446655440000',
+      username: 'alice',
+      email: 'alice@example.com',
       role: 'ADMIN',
+      createdAt: new Date('2025-03-21T18:55:58.79013'),
     },
   });
 
-  // Create sample tasks
-  const task1 = await prisma.task.upsert({
-    where: {
-      title_assigneeId: {
-        title: 'Complete project documentation',
-        assigneeId: user1.id,
-      },
-    },
+  const bob = await prisma.user.upsert({
+    where: { username: 'bob' },
     update: {},
     create: {
-      title: 'Complete project documentation',
-      description: 'Write comprehensive documentation for the project',
-      status: 'IN_PROGRESS',
+      id: '550e8400-e29b-41d4-a716-446655440001',
+      username: 'bob',
+      email: 'bob@example.com',
+      role: 'USER',
+      createdAt: new Date('2025-03-21T18:55:58.79013'),
+    },
+  });
+
+  const charlie = await prisma.user.upsert({
+    where: { username: 'charlie' },
+    update: {},
+    create: {
+      id: '550e8400-e29b-41d4-a716-446655440002',
+      username: 'charlie',
+      email: 'charlie@example.com',
+      role: 'USER',
+      createdAt: new Date('2025-03-21T18:55:58.79013'),
+    },
+  });
+
+  const david = await prisma.user.upsert({
+    where: { username: 'david' },
+    update: {},
+    create: {
+      id: '550e8400-e29b-41d4-a716-446655440003',
+      username: 'david',
+      email: 'david@example.com',
+      role: 'USER',
+      createdAt: new Date('2025-03-21T18:55:58.79013'),
+    },
+  });
+
+  const eve = await prisma.user.upsert({
+    where: { username: 'eve' },
+    update: {},
+    create: {
+      id: '550e8400-e29b-41d4-a716-446655440004',
+      username: 'eve',
+      email: 'eve@example.com',
+      role: 'ADMIN',
+      createdAt: new Date('2025-03-21T18:55:58.79013'),
+    },
+  });
+
+  // Create tasks from SQL file
+  const task1 = await prisma.task.upsert({
+    where: { id: '550e8400-e29b-41d4-a716-446655440010' },
+    update: {},
+    create: {
+      id: '550e8400-e29b-41d4-a716-446655440010',
+      title: 'Task 1',
+      description: 'Description for task 1',
+      status: 'TODO',
       priority: 'HIGH',
-      dueDate: new Date('2024-04-01'),
-      assigneeId: user1.id,
+      dueDate: new Date('2023-12-01'),
+      createdAt: new Date('2025-03-21T18:55:58.870344'),
+      updatedAt: new Date('2025-03-21T18:55:58.870344'),
+      assigneeId: alice.id,
     },
   });
 
   const task2 = await prisma.task.upsert({
-    where: {
-      title_assigneeId: {
-        title: 'Review pull requests',
-        assigneeId: user2.id,
-      },
-    },
+    where: { id: '550e8400-e29b-41d4-a716-446655440011' },
     update: {},
     create: {
-      title: 'Review pull requests',
-      description: 'Review and merge pending pull requests',
-      status: 'TODO',
+      id: '550e8400-e29b-41d4-a716-446655440011',
+      title: 'Task 2',
+      description: 'Description for task 2',
+      status: 'IN_PROGRESS',
       priority: 'MEDIUM',
-      dueDate: new Date('2024-03-25'),
-      assigneeId: user2.id,
+      dueDate: new Date('2023-12-05'),
+      createdAt: new Date('2025-03-21T18:55:58.870344'),
+      updatedAt: new Date('2025-03-21T18:55:58.870344'),
+      assigneeId: bob.id,
     },
   });
 
   const task3 = await prisma.task.upsert({
-    where: {
-      title_assigneeId: {
-        title: 'Bug fix: Login page',
-        assigneeId: user1.id,
-      },
-    },
+    where: { id: '550e8400-e29b-41d4-a716-446655440012' },
     update: {},
     create: {
-      title: 'Bug fix: Login page',
-      description: 'Fix the login page validation issue',
+      id: '550e8400-e29b-41d4-a716-446655440012',
+      title: 'Task 3',
+      description: 'Description for task 3',
       status: 'DONE',
-      priority: 'HIGH',
-      dueDate: new Date('2024-03-20'),
-      assigneeId: user1.id,
+      priority: 'LOW',
+      dueDate: new Date('2023-12-10'),
+      createdAt: new Date('2025-03-21T18:55:58.870344'),
+      updatedAt: new Date('2025-03-21T18:55:58.870344'),
+      assigneeId: charlie.id,
     },
   });
 
-  console.log({ user1, user2, task1, task2, task3 });
+  const task4 = await prisma.task.upsert({
+    where: { id: '550e8400-e29b-41d4-a716-446655440013' },
+    update: {},
+    create: {
+      id: '550e8400-e29b-41d4-a716-446655440013',
+      title: 'Task 4',
+      description: 'Description for task 4',
+      status: 'TODO',
+      priority: 'MEDIUM',
+      dueDate: new Date('2023-12-15'),
+      createdAt: new Date('2025-03-21T18:55:58.870344'),
+      updatedAt: new Date('2025-03-21T18:55:58.870344'),
+      assigneeId: david.id,
+    },
+  });
+
+  const task5 = await prisma.task.upsert({
+    where: { id: '550e8400-e29b-41d4-a716-446655440014' },
+    update: {},
+    create: {
+      id: '550e8400-e29b-41d4-a716-446655440014',
+      title: 'Task 5',
+      description: 'Description for task 5',
+      status: 'IN_PROGRESS',
+      priority: 'HIGH',
+      dueDate: new Date('2023-12-20'),
+      createdAt: new Date('2025-03-21T18:55:58.870344'),
+      updatedAt: new Date('2025-03-21T18:55:58.870344'),
+      assigneeId: eve.id,
+    },
+  });
+
+  console.log({ alice, bob, charlie, david, eve, task1, task2, task3, task4, task5 });
 }
 
 main()

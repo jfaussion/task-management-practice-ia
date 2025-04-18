@@ -50,6 +50,10 @@ jobs:
           node-version: '20'
       - name: Install Angular CLI
         run: npm install -g @angular/cli
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
       - name: Install Dependencies
         run: |
           cd frontend
@@ -57,4 +61,4 @@ jobs:
       - name: Run Tests
         run: |
           cd frontend
-          npm test
+          npm test -- --browsers=ChromeHeadless --watch=false

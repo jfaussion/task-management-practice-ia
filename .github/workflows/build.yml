@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build-backend:
+  build-and-test-backend-springboot:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,7 +23,24 @@ jobs:
           cd backend/springboot
           mvn clean package
 
-  build-frontend:
+  build-and-test-backend-nestjs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Install Dependencies
+        run: |
+          cd backend/nestjs
+          npm install
+      - name: Run Tests
+        run: |
+          cd backend/nestjs
+          npm test
+
+  build-and-test-frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -33,11 +50,15 @@ jobs:
           node-version: '20'
       - name: Install Angular CLI
         run: npm install -g @angular/cli
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
       - name: Install Dependencies
         run: |
           cd frontend
           npm install
-      - name: Build Frontend
+      - name: Run Tests
         run: |
           cd frontend
-          ng build --configuration production 
+          npm test -- --browsers=ChromeHeadless --watch=false

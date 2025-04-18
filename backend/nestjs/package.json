@@ -21,6 +21,7 @@
     "prisma:generate": "prisma generate --schema=prisma/schema.prisma",
     "prisma:migrate": "prisma migrate deploy",
     "prisma:reset": "prisma migrate reset --force",
+    "prisma:seed": "ts-node prisma/seed.ts",
     "prisma:diagnose": "prisma generate && node -r dotenv/config -e \"console.log('Prisma Client Path:', require('path').resolve('./generated/prisma')); console.log('Database URL:', process.env.DATABASE_URL); console.log('Current Directory:', process.cwd());\"",
     "db:setup": "prisma generate && prisma migrate deploy"
   },

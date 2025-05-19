@@ -1,0 +1,79 @@
+@HostAddress = http://localhost:5204
+
+### Get All Tasks
+GET {{HostAddress}}/api/v1/Tasks
+Accept: application/json
+
+################
+
+### Get Good 1 Task
+GET {{HostAddress}}/api/v1/Tasks/550e8400-e29b-41d4-a716-446655440010
+Accept: application/json
+
+### Get Bad 1 Task (Not Guid)
+GET {{HostAddress}}/api/v1/Tasks/1
+Accept: application/json
+
+### Get Bad 1 Task (not found guid)
+GET {{HostAddress}}/api/v1/Tasks/550e8400-e30b-41d4-a716-446655440099
+Accept: application/json
+
+##########################
+
+### Create Good Task
+POST {{HostAddress}}/api/v1/Tasks
+Content-Type: application/json
+{
+    "Title": "Test Task",
+    "Description": "Test Task Description",
+    "DueDate": "2023-10-01",
+    "Priority": "High",
+    "Status": "Todo"
+}
+
+### Create Bad Task
+POST {{HostAddress}}/api/v1/Tasks
+Content-Type: application/json
+{
+    "Title": "Test Task",
+    "Description": "Test Task Description",
+    "DueDate": "2023-10-01",
+    "Priority": "",
+    "Status": ""
+}
+
+##########################
+
+### Update Good Task by Id
+PUT {{HostAddress}}/api/v1/Tasks/550e8400-e29b-41d4-a716-446655440010
+Content-Type: application/json
+{
+    "Title": "Updated Task",
+    "Description": "Updated Task Description",
+    "DueDate": "2023-10-01",
+    "Priority": "High",
+    "Status": "In_Progress",
+    "AssigneeId": "550e8400-e29b-41d4-a716-446655440000"
+}
+
+### Update Bad Task by bad Id
+PUT {{HostAddress}}/api/v1/Tasks/1
+Content-Type: application/json
+{
+    "Title": "Updated Task",
+    "Description": "Updated Task Description",
+    "DueDate": "2023-10-01",
+    "Priority": "High",
+    "Status": "InProgress"
+}
+
+### Update Bad Task by bad json
+PUT {{HostAddress}}/api/v1/Tasks/550e8400-e29b-41d4-a716-446655440010
+Content-Type: application/json
+{
+    "Title": "Updated Task",
+    "Description": "Updated Task Description",
+    "DueDate": "2023-10-01",
+    "Priority": "",
+    "Status": ""
+}

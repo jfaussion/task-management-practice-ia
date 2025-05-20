@@ -1,0 +1,65 @@
+@HostAddress = http://localhost:5204
+
+### Get All Users
+GET {{HostAddress}}/api/v1/Users
+Accept: application/json
+
+##########################
+
+### Get Good 1 Users
+GET {{HostAddress}}/api/v1/Users/550e8400-e29b-41d4-a716-446655440000
+Accept: application/json
+
+### Get Bad 1 Users (Not Guid)
+GET {{HostAddress}}/api/v1/Users/1
+Accept: application/json
+
+### Get Bad 1 Users (not found guid)
+GET {{HostAddress}}/api/v1/Users/550e8400-e30b-41d4-a716-446655440099
+Accept: application/json
+
+##########################
+
+### Create Good Users
+POST {{HostAddress}}/api/v1/Users
+Content-Type: application/json
+{
+    "Username": "Create User",
+    "Role": "Admin"
+}
+
+### Create Bad Users
+POST {{HostAddress}}/api/v1/Users
+Content-Type: application/json
+{
+    "Username": "Create User",
+    "Role": "Administrator"
+}
+
+##########################
+
+### Update Good Users
+PUT {{HostAddress}}/api/v1/Users/550e8400-e29b-41d4-a716-446655440000
+Content-Type: application/json
+{
+    "Username": "Update User",
+    "Role": "User"
+}
+
+### Update Bad Users (by bad Id)
+PUT {{HostAddress}}/api/v1/Users/1
+Content-Type: application/json
+{
+    "Username": "Update User",
+    "Role": "User",
+    "Email": ""
+}
+
+### Update Bad Users (by bad json)
+PUT {{HostAddress}}/api/v1/Users/550e8400-e29b-41d4-a716-446655440000
+Content-Type: application/json
+{
+    "Username": "",
+    "Role": "User",
+    "Email": ""
+}

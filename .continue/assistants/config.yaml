@@ -5,7 +5,7 @@ models:
   - name: NeoGen Multimodal M
     provider: openai
     model: neogen-multimodal-m
-    apiKey: API_KEY
+    apiKey: ${{API_KEY}}
     apiBase: https://neogen.neosoft.fr/api/
     env:
       useLegacyCompletionsEndpoint: false
@@ -16,7 +16,7 @@ models:
   - name: NeoGen Coder M
     provider: openai
     model: neogen-coder-m
-    apiKey: API_KEY
+    apiKey: ${{API_KEY}}
     apiBase: https://neogen.neosoft.fr/api/
     env:
       useLegacyCompletionsEndpoint: false
@@ -27,7 +27,7 @@ models:
   - name: NeoGen Raisonnement L
     provider: openai
     model: neogen-raisonnement-l
-    apiKey: API_KEY
+    apiKey: ${{API_KEY}}
     apiBase: https://neogen.neosoft.fr/api/
     env:
       useLegacyCompletionsEndpoint: false
@@ -35,10 +35,10 @@ models:
       - chat
       - edit
  
-  - name: NeoGen Autocomplete
+  - name: NeoGen Coder XS 
     provider: openai
-    model: beta.Qwen/Qwen2.5-Coder-1.5B-Instruct
-    apiKey: API_KEY
+    model: neogen-coder-xs
+    apiKey: ${{API_KEY}}
     apiBase: https://neogen.neosoft.fr/api/
     env:
       useLegacyCompletionsEndpoint: false

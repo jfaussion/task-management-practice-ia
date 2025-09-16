@@ -35,6 +35,12 @@ public class UserDAOImpl implements UserDAO {
     }
     
     @Override
+    public Page<User> findAll(Pageable pageable) {
+        Page<UserEntity> entityPage = repository.findAll(pageable);
+        return entityPage.map(mapper::toBO);
+    }
+    
+    @Override
     public Optional<User> findById(UUID id) {
         return repository.findById(id).map(mapper::toBO);
     }

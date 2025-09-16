@@ -38,6 +38,14 @@ public class UserServiceImpl implements UserService {
     
     @Override
     @Transactional(readOnly = true)
+    public Page<User> getAllUsers(Pageable pageable) {
+        logger.debug("Getting all users with pagination: page={}, size={}",
+                    pageable.getPageNumber(), pageable.getPageSize());
+        return userDAO.findAll(pageable);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
     public Optional<User> getUserById(UUID id) {
         return userDAO.findById(id);
     }

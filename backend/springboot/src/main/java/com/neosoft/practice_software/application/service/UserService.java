@@ -17,10 +17,18 @@ public interface UserService {
     
     /**
      * Get all users.
-     * 
+     *
      * @return List of all users
      */
     List<User> getAllUsers();
+    
+    /**
+     * Get all users with pagination support.
+     *
+     * @param pageable Pagination and sorting information
+     * @return Page containing all users with pagination metadata
+     */
+    Page<User> getAllUsers(Pageable pageable);
     
     /**
      * Get a user by ID.

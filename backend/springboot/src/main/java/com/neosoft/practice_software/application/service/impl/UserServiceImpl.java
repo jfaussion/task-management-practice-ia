@@ -3,9 +3,15 @@ package com.neosoft.practice_software.application.service.impl;
 import com.neosoft.practice_software.application.dao.UserDAO;
 import com.neosoft.practice_software.application.service.UserService;
 import com.neosoft.practice_software.domain.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,6 +21,8 @@ import java.util.UUID;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     
     private final UserDAO userDAO;
     
@@ -79,4 +87,49 @@ public class UserServiceImpl implements UserService {
     public boolean existsByUsername(String username) {
         return userDAO.existsByUsername(username);
     }
-} 
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> searchUsersByUsername(String username) {
+        // Input validation and sanitization
+        if (!StringUtils.hasText(username)) {
+            logger.debug("Search term is null or empty, returning empty list");
+            return Collections.emptyList();
+        }
+        
+        String trimmedUsername = username.trim();
+        if (trimmedUsername.isEmpty()) {
+            logger.debug("Search term is empty after trimming, returning empty list");
+            return Collections.emptyList();
+        }
+        
+        // Sanitize search term for logging (remove potential log injection characters)
+        String sanitizedUsername = trimmedUsername.replaceAll("[\r\n\t]", "_");
+        
+        logger.debug("Starting user search: term='{}'", sanitizedUsername);
+        return userDAO.findByUsernameContainingIgnoreCase(trimmedUsername);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Page<User> searchUsersByUsername(String username, Pageable pageable) {     
+        // Input validation and sanitization
+        if (!StringUtils.hasText(username)) {
+            logger.debug("Search term is null or empty, returning empty page");
+            return Page.empty(pageable);
+        }
+        
+        String trimmedUsername = username.trim();
+        if (trimmedUsername.isEmpty()) {
+            logger.debug("Search term is empty after trimming, returning empty page");
+            return Page.empty(pageable);
+        }
+        
+        // Sanitize search term for logging (remove potential log injection characters)
+        String sanitizedUsername = trimmedUsername.replaceAll("[\r\n\t]", "_");
+        
+        logger.debug("Starting paginated user search: term='{}', page={}, size={}",
+                    sanitizedUsername, pageable.getPageNumber(), pageable.getPageSize());  
+        return userDAO.findByUsernameContainingIgnoreCase(trimmedUsername, pageable);
+    }
+}

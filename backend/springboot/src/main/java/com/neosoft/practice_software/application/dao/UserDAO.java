@@ -14,10 +14,18 @@ public interface UserDAO {
     
     /**
      * Find all users.
-     * 
+     *
      * @return List of all users
      */
     List<User> findAll();
+    
+    /**
+     * Find all users with pagination support.
+     *
+     * @param pageable Pagination and sorting information
+     * @return Page containing all users with pagination metadata
+     */
+    Page<User> findAll(Pageable pageable);
     
     /**
      * Find a user by ID.

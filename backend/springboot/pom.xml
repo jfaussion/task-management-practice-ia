@@ -83,7 +83,13 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         
-	</dependencies>
+        <!-- Spring AOP for logging aspect -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        
+ </dependencies>
 
 	<build>
 		<plugins>

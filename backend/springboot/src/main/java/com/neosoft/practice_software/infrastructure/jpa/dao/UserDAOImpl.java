@@ -5,7 +5,10 @@ import com.neosoft.practice_software.domain.model.User;
 import com.neosoft.practice_software.infrastructure.jpa.entity.UserEntity;
 import com.neosoft.practice_software.infrastructure.jpa.mapper.UserEntityMapper;
 import com.neosoft.practice_software.infrastructure.jpa.repository.JpaUserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -90,4 +93,24 @@ public class UserDAOImpl implements UserDAO {
     public boolean existsByUsername(String username) {
         return repository.existsByUsername(username);
     }
-} 
+    
+    @Override
+    public List<User> findByUsernameContainingIgnoreCase(String username) {
+        if (!StringUtils.hasText(username)) {
+            return findAll();
+        }
+        
+        List<UserEntity> entities = repository.findByUsernameContainingIgnoreCase(username.trim());
+        return mapper.toBOs(entities);
+    }
+    
+    @Override
+    public Page<User> findByUsernameContainingIgnoreCase(String username, Pageable pageable) {
+        if (!StringUtils.hasText(username)) {
+            return repository.findAll(pageable).map(mapper::toBO);
+        }
+        
+        Page<UserEntity> entityPage = repository.findByUsernameContainingIgnoreCase(username.trim(), pageable);
+        return entityPage.map(mapper::toBO);
+    }
+}

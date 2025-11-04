@@ -30,10 +30,6 @@ export class TaskServiceImpl implements ITaskService {
     return this.taskDao.update(id, task);
   }
 
-  async delete(id: string): Promise<void> {
-    return this.taskDao.delete(id);
-  }
-
   async findByUserId(userId: string): Promise<Task[]> {
     return this.taskDao.findByUserId(userId);
   }

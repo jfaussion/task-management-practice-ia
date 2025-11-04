@@ -59,16 +59,6 @@ export class TaskController {
     return this.taskService.update(id, updateTaskDto);
   }
 
-  @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async delete(@Param('id') id: string): Promise<void> {
-    const task = await this.taskService.findById(id);
-    if (!task) {
-      throw new NotFoundException('Task', id);
-    }
-    return this.taskService.delete(id);
-  }
-
   @Get('users/:userId/tasks')
   async findByUserId(@Param('userId') userId: string): Promise<Task[]> {
     return this.taskService.findByUserId(userId);

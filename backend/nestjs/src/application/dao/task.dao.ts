@@ -11,6 +11,5 @@ export interface ITaskDao {
   findById(id: string): Promise<Task | null>;
   create(task: Partial<Task>): Promise<Task>;
   update(id: string, task: Partial<Task>): Promise<Task>;
-  delete(id: string): Promise<void>;
   findByUserId(userId: string): Promise<Task[]>;
 } 

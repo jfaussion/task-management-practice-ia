@@ -69,12 +69,6 @@ export class TaskDaoImpl implements ITaskDao {
     return this.mapToTask(updatedTask);
   }
 
-  async delete(id: string): Promise<void> {
-    await this.prisma.task.delete({
-      where: { id },
-    });
-  }
-
   async findByUserId(userId: string): Promise<Task[]> {
     const tasks = await this.prisma.task.findMany({
       where: { assigneeId: userId },

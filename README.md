@@ -6,15 +6,15 @@ Task Management Practice IA est une application de gestion de tâches développ�
 ## 🏗️ Architecture du projet
 Le projet suit une **architecture en monorepo** et est organisé comme suit :
 
-```
-/task-management-practice-ia
-│── backend/          # API Spring Boot 3.x
-│── frontend/         # Application Angular 19
-│── docs/             # Documentation du projet
-│── scripts/          # Scripts d'automatisation
-│── .github/          # Workflows CI/CD
-│── README.md         # Documentation principale
-```
+    ```
+    /task-management-practice-ia
+    │── backend/          # API Spring Boot 3.x
+    │── frontend/         # Application Angular 19
+    │── docs/             # Documentation du projet
+    │── scripts/          # Scripts d'automatisation
+    │── .github/          # Workflows CI/CD
+    │── README.md         # Documentation principale
+    ```
 
 ## ⚙️ Technologies utilisées
 ### **Backend : Java Spring Boot 3.x**
@@ -24,30 +24,16 @@ Le projet suit une **architecture en monorepo** et est organisé comme suit :
 - PostgreSQL
 - Liquibase
 
-### **Frontend : Angular 19**
+### **Frontend : React 22**
 - Node.js 20
-- Angular CLI
+- React CLI
 - Tailwind CSS 4
-- RxJS
+- Toto c'est mieux
 
 ### **Outils et automatisation**
 - GitHub Actions (CI/CD)
 - Docker
 - Postgres (via Docker)
-
-## 🔧 Installation & Setup
-### 1️⃣ Prérequis
-Avant de commencer, assurez-vous d'avoir installé :
-- **JDK 21** ([Télécharger ici](https://adoptium.net/))
-- **Maven 3.9+** ([Télécharger ici](https://maven.apache.org/download.cgi))
-- **Node.js 20+ et npm 10+** ([Télécharger ici](https://nodejs.org/))
-- **Docker** (optionnel pour PostgreSQL)
-
-### 2️⃣ Cloner le repository
-```bash
-git clone https://github.com/<votre-username>/task-management-practice-ia.git
-cd task-management-practice-ia
-```
 
 ### 3️⃣ Lancer la base de données (optionnel)
 Si vous utilisez **PostgreSQL via Docker**, exécutez :
@@ -97,16 +83,6 @@ cd frontend && ng serve
 | [Database Design](docs/Architecture/db-design.md) | Conception et structure de la base de données |
 | [API Documentation](docs/Architecture/url-api-structure.md) | Documentation de l'API |
 
-## 📜 Licence
-Ce projet est sous licence **MIT**.
-
-## 📩 Contribution
-Les contributions sont les bienvenues ! Pour proposer une modification :
-1. **Fork** le repo
-2. **Crée une branche** (`git checkout -b feature/ma-fonctionnalite`)
-3. **Commit tes changements** (`git commit -m "Ajout d'une nouvelle fonctionnalité"`)
-4. **Push ta branche** (`git push origin feature/ma-fonctionnalite`)
-5. **Ouvre une Pull Request**
 
 ---
 Développé avec ❤️ par la communauté Task Management Practice IA 🚀

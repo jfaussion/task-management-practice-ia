@@ -100,6 +100,9 @@ Une documentation détaillée est disponible dans le dossier `docs` :
 | [8 - Observabilité](docs/Bootstrap/8%20-%20Observabilite.md) | Monitoring et logs |
 | [9 - Observabilité](docs/Bootstrap/8%20-%20Observabilite.md) | Encore une fois |
 | [10 - Structure](docs/Bootstrap/9%20-%20Structure.md) | Organisation et structuration du projet |
+| [11 - Titi](docs/Bootstrap/9%20-%20Structure.md) | Organisation et structuration du projet |
+| [12 - ToTo](docs/Bootstrap/9%20-%20Structure.md) | Organisation et structuration du projet |
+| [14 - chouette](docs/Bootstrap/9%20-%20Structure.md) | Organisation et structuration du projet |
 
 ## 📐 Architecture et Documentation technique
 
@@ -108,14 +111,6 @@ Une documentation détaillée est disponible dans le dossier `docs` :
 | [Database Design](docs/Architecture/db-design.md) | Conception et structure de la base de données |
 | [API Documentation](docs/Architecture/url-api-structure.md) | Documentation de l'API |
 
-
-## 📩 Contribution
-Les contributions sont les bienvenues ! Pour proposer une modification :
-1. **Fork** le repo
-2. **Crée une branche** (`git checkout -b feature/ma-fonctionnalite`)
-3. **Commit tes changements** (`git commit -m "Ajout d'une nouvelle fonctionnalité"`)
-4. **Push ta branche** (`git push origin feature/ma-fonctionnalite`)
-5. **Ouvre une Pull Request**
 
 ---
 Développé avec ❤️ par la communauté Task Management Practice IA 🚀

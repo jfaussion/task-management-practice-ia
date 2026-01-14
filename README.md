@@ -24,9 +24,9 @@ Le projet suit une **architecture en monorepo** et est organisé comme suit :
 - PostgreSQL
 - Liquibase
 
-### **Frontend : Angular 19**
+### **Frontend : React 22**
 - Node.js 20
-- Angular CLI
+- React CLI
 - Tailwind CSS 4
 - RxJS
 

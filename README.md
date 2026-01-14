@@ -35,14 +35,6 @@ Le projet suit une **architecture en monorepo** et est organisé comme suit :
 - Docker
 - Postgres (via Docker)
 
-## 🔧 Installation & Setup
-### 1️⃣ Prérequis
-Avant de commencer, assurez-vous d'avoir installé :
-- **JDK 21** ([Télécharger ici](https://adoptium.net/))
-- **Maven 3.9+** ([Télécharger ici](https://maven.apache.org/download.cgi))
-- **Node.js 20+ et npm 10+** ([Télécharger ici](https://nodejs.org/))
-- **Docker** (optionnel pour PostgreSQL)
-
 ### 3️⃣ Lancer la base de données (optionnel)
 Si vous utilisez **PostgreSQL via Docker**, exécutez :
 ```bash

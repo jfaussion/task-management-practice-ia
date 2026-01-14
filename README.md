@@ -90,22 +90,6 @@ cd frontend && ng serve
 - **Utilisation de l'IA pour la documentation** (JavaDoc, descriptions de classes).
 - **Détection et correction de bugs** assistée par IA.
 
-## 📚 Documentation Globale
-Une documentation détaillée est disponible dans le dossier `docs` :
-
-| Section | Description |
-|---------|------------|
-| [1 - Besoin](docs/Bootstrap/1%20-%20Besoin.md) | Description des besoins du projet |
-| [2 - Hébergement](docs/Bootstrap/2%20-%20Hébergement.md) | Solutions d'hébergement et déploiement |
-| [3.1 - Backend Springboot](docs/Bootstrap/3.1%20-%20Backend%20Springboot.md) | Architecture et développement du backend Springboot|
-| [3.2 - Backend NestJS](docs/Bootstrap/3.2%20-%20Backend%20Nest.md) | Architecture et développement du backend NestJS |
-| [4 - Frontend](docs/Bootstrap/4%20-%20Frontend.md) | Développement du frontend en Angular |
-| [5 - BDD](docs/Bootstrap/5%20-%20BDD.md) | Gestion et structuration de la base de données |
-| [6 - Événement](docs/Bootstrap/6%20-%20Evenement.md) | Gestion des événements et messages asynchrones |
-| [7 - Sécurité](docs/Bootstrap/7%20-%20Securite.md) | Bonnes pratiques de sécurité |
-| [8 - Observabilité](docs/Bootstrap/8%20-%20Observabilite.md) | Monitoring et logs |
-| [9 - Structure](docs/Bootstrap/9%20-%20Structure.md) | Organisation et structuration du projet |
-
 ## 📐 Architecture et Documentation technique
 
 | Section | Description |

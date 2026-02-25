@@ -1,0 +1,98 @@
+<div 
+  class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+  (click)="onBackdropClick($event)"
+>
+  <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
+    <div class="mb-4 flex items-center justify-between">
+      <h2 class="text-xl font-bold text-gray-800">
+        {{ task ? 'Edit Task' : 'New Task' }}
+      </h2>
+      <button 
+        (click)="onClose()"
+        class="text-gray-500 hover:text-gray-700"
+      >
+        ✕
+      </button>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+      <div>
+        <label class="mb-1 block text-sm font-medium text-gray-700">Title *</label>
+        <input 
+          [(ngModel)]="title"
+          name="title"
+          type="text"
+          required
+          class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+          placeholder="Task title"
+        />
+      </div>
+
+      <div>
+        <label class="mb-1 block text-sm font-medium text-gray-700">Description</label>
+        <textarea 
+          [(ngModel)]="description"
+          name="description"
+          rows="3"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+          placeholder="Task description"
+        ></textarea>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700">Status *</label>
+          <select 
+            [(ngModel)]="status"
+            name="status"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+          >
+            @for (status of statuses; track status) {
+              <option [value]="status">{{ status }}</option>
+            }
+          </select>
+        </div>
+
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700">Priority</label>
+          <select 
+            [(ngModel)]="priority"
+            name="priority"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+          >
+            @for (priority of priorities; track priority) {
+              <option [value]="priority">{{ priority }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class="mb-1 block text-sm font-medium text-gray-700">Due Date</label>
+        <input 
+          [(ngModel)]="dueDate"
+          name="dueDate"
+          type="date"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
+        />
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <button 
+          type="button"
+          (click)="onClose()"
+          class="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+        <button 
+          type="submit"
+          [disabled]="!title || isLoading()"
+          class="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
+        >
+          {{ isLoading() ? 'Saving...' : (task ? 'Update' : 'Create') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

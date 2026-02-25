@@ -1,0 +1,21 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "provider": {
+      "neogen": {
+        "npm": "@ai-sdk/openai-compatible",
+        "name": "Neogen",
+        "options": {
+          "baseURL": "https://neogen.neosoft.fr/api",
+          "apiKey": "{env:NEOGEN_API_KEY}"
+        },
+        "models": {
+          "swe-dev-minimax-m2-5": {
+            "name": "dev-agentique"
+          },
+        }
+      }
+    },
+    "enabled_providers": ["neogen"],
+    "share": "disabled",
+    "model": "neogen/swe-dev-minimax-m2-5"
+  }

@@ -41,9 +41,13 @@ public interface TaskEntityMapper {
     
     /**
      * Update a TaskEntity from a Task.
-     * 
+     * Ignores createdAt and updatedAt to preserve timestamps (updatedAt is set by DAO).
+     *
      * @param bo The business object with updated values
      * @param entity The entity to update
      */
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "assignee", ignore = true)
     void updateEntityFromBO(Task bo, @MappingTarget TaskEntity entity);
 } 

@@ -4,6 +4,7 @@ import com.neosoft.practice_software.application.service.TaskService;
 import com.neosoft.practice_software.domain.model.Task;
 import com.neosoft.practice_software.infrastructure.api.dto.CreateTaskDTO;
 import com.neosoft.practice_software.infrastructure.api.dto.TaskDTO;
+import com.neosoft.practice_software.infrastructure.api.dto.UpdateTaskDTO;
 import com.neosoft.practice_software.infrastructure.api.mapper.TaskDTOMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,8 +50,8 @@ public class TaskController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<TaskDTO> updateTask(@PathVariable UUID id, @RequestBody TaskDTO taskDTO) {
-        Task taskBO = taskDTOMapper.toBO(taskDTO);
+    public ResponseEntity<TaskDTO> updateTask(@PathVariable UUID id, @RequestBody UpdateTaskDTO updateTaskDTO) {
+        Task taskBO = taskDTOMapper.toBO(updateTaskDTO);
         Task updatedTask = taskService.updateTask(id, taskBO);
         return ResponseEntity.ok(taskDTOMapper.toDTO(updatedTask));
     }

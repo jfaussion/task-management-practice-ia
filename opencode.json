@@ -40,5 +40,12 @@
     },
     "enabled_providers": ["neogen"],
     "share": "disabled",
-    "model": "neogen/swe-dev-minimax-m2-5"
+    "model": "neogen/swe-dev-minimax-m2-5",
+    "mcp": {
+      "context7":{
+        "enabled": true,
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp"
+      }
+    }
   }

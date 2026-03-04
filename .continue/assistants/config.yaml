@@ -2,9 +2,9 @@ name: NeoGen Assistant
 version: 1.0.0
 schema: v1
 models:
-  - name: NeoGen Multimodal M
+  - name: Neogen Multimodal
     provider: openai
-    model: neogen-multimodal-m
+    model: multimdia
     apiKey: ${{API_KEY}}
     apiBase: https://neogen.neosoft.fr/api/
     env:
@@ -13,9 +13,9 @@ models:
       - chat
       - edit
 
-  - name: NeoGen Coder M
+  - name: Neogen Agentique
     provider: openai
-    model: neogen-coder-m
+    model: swe-dev-minimax-m2-5
     apiKey: ${{API_KEY}}
     apiBase: https://neogen.neosoft.fr/api/
     env:
@@ -24,9 +24,9 @@ models:
       - chat
       - edit
 	  
-  - name: NeoGen Raisonnement L
+  - name: Neogen Standard
     provider: openai
-    model: neogen-raisonnement-l
+    model: standard
     apiKey: ${{API_KEY}}
     apiBase: https://neogen.neosoft.fr/api/
     env:

@@ -1,5 +1,28 @@
 {
     "$schema": "https://opencode.ai/config.json",
+    "permission": {
+      "read": "allow",
+      "edit": "allow",
+      "glob": "allow",
+      "grep": "allow",
+      "list": "allow",
+      "bash": {
+        "*": "ask",
+        "git *": "allow",
+        "rm *": "deny",
+        "mvn test *": "allow",
+        "mvn compile *": "allow"
+      },
+      "task": "allow",
+      "skill": "allow",
+      "todoread": "allow",
+      "todowrite": "allow",
+      "webfetch": "ask",
+      "websearch": "ask",
+      "codesearch": "ask",
+      "external_directory": "ask",
+      "doom_loop": "ask"
+    },
     "provider": {
       "neogen": {
         "npm": "@ai-sdk/openai-compatible",

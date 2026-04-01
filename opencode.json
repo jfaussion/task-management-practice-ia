@@ -35,6 +35,9 @@
           "swe-dev-minimax-m2-5": {
             "name": "dev-agentique"
           },
+          "standard": {
+            "name": "Standard"
+          }
         }
       }
     },

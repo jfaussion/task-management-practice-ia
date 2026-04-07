@@ -1,6 +1,8 @@
 package com.neosoft.practice_software.application.dao;
 
 import com.neosoft.practice_software.domain.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,10 +14,18 @@ public interface UserDAO {
     
     /**
      * Find all users.
-     * 
+     *
      * @return List of all users
      */
     List<User> findAll();
+    
+    /**
+     * Find all users with pagination support.
+     *
+     * @param pageable Pagination and sorting information
+     * @return Page containing all users with pagination metadata
+     */
+    Page<User> findAll(Pageable pageable);
     
     /**
      * Find a user by ID.
@@ -66,9 +76,26 @@ public interface UserDAO {
     
     /**
      * Check if a user exists by username.
-     * 
+     *
      * @param username Username
      * @return true if the user exists
      */
     boolean existsByUsername(String username);
-} 
+    
+    /**
+     * Find users by username containing the search term (case-insensitive).
+     *
+     * @param username Username search term
+     * @return List of users matching the search criteria
+     */
+    List<User> findByUsernameContainingIgnoreCase(String username);
+    
+    /**
+     * Find users by username containing the search term (case-insensitive) with pagination.
+     *
+     * @param username Username search term
+     * @param pageable Pagination information
+     * @return Page of users matching the search criteria
+     */
+    Page<User> findByUsernameContainingIgnoreCase(String username, Pageable pageable);
+}

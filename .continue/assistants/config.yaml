@@ -5,7 +5,7 @@ models:
   - name: Neogen Multimodal
     provider: openai
     model: multimdia
-    apiKey: ${{API_KEY}}
+    apiKey: ${{NEOGEN_API_KEY}}
     apiBase: https://neogen.neosoft.fr/api/
     env:
       useLegacyCompletionsEndpoint: false
@@ -16,7 +16,7 @@ models:
   - name: Neogen Agentique
     provider: openai
     model: swe-dev-minimax-m2-5
-    apiKey: ${{API_KEY}}
+    apiKey: ${{NEOGEN_API_KEY}}
     apiBase: https://neogen.neosoft.fr/api/
     env:
       useLegacyCompletionsEndpoint: false
@@ -27,7 +27,7 @@ models:
   - name: Neogen Standard
     provider: openai
     model: standard
-    apiKey: ${{API_KEY}}
+    apiKey: ${{NEOGEN_API_KEY}}
     apiBase: https://neogen.neosoft.fr/api/
     env:
       useLegacyCompletionsEndpoint: false
@@ -38,7 +38,7 @@ models:
   - name: NeoGen Coder XS 
     provider: openai
     model: neogen-coder-xs
-    apiKey: ${{API_KEY}}
+    apiKey: ${{NEOGEN_API_KEY}}
     apiBase: https://neogen.neosoft.fr/api/
     env:
       useLegacyCompletionsEndpoint: false

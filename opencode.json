@@ -32,8 +32,14 @@
           "apiKey": "{env:NEOGEN_API_KEY}"
         },
         "models": {
-          "swe-dev-minimax-m2-5": {
-            "name": "dev-agentique"
+          "swe-max-glm-53-flash": {
+            "name": "neogen-dev-max"
+          },
+          "swe-high-glm-53-flash": {
+            "name": "neogen-dev-high"
+          },
+          "swe-low-glm-53-flash": {
+            "name": "neogen-dev-low"
           },
           "standard": {
             "name": "Standard"
@@ -43,7 +49,7 @@
     },
     "enabled_providers": ["neogen"],
     "share": "disabled",
-    "model": "neogen/swe-dev-minimax-m2-5",
+    "model": "neogen/neogen-dev-high",
     "mcp": {
       "context7":{
         "enabled": true,

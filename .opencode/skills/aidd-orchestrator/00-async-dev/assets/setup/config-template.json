@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "mode": "both",
+  "labels": {
+    "to_implement": "to-implement",
+    "to_review": "to-review",
+    "working": "claude/working",
+    "awaiting_review": "claude/awaiting-review",
+    "blocked": "claude/blocked"
+  },
+  "mentions": {
+    "implement": "@claude /implement",
+    "review": "@claude /review"
+  },
+  "claude_action_auth": {
+    "mode": "oauth_token",
+    "default_secret_name": "CLAUDE_CODE_OAUTH_TOKEN",
+    "account_routing": {}
+  },
+  "marketplace": {
+    "repo": "ai-driven-dev/framework",
+    "access": "public",
+    "token_secret_name": null
+  },
+  "github_write_auth": {
+    "mode": "default",
+    "secret_name": null,
+    "app_id_secret": null,
+    "app_private_key_secret": null
+  },
+  "max_iterations": 3,
+  "audit": {
+    "log_dir": "aidd_docs/async-runs",
+    "github_check_run": true
+  }
+}

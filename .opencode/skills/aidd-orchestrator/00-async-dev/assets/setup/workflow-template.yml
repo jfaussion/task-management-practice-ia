@@ -1,0 +1,311 @@
+name: aidd-async
+
+on:
+  issues:
+    types: [labeled]
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: aidd-async-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  checks: write
+  id-token: write
+
+jobs:
+  dispatch:
+    if: |
+      github.event.sender.type != 'Bot' && (
+        (github.event_name == 'issues' && (github.event.label.name == '__TO_IMPLEMENT_LABEL__' || github.event.label.name == '__TO_REVIEW_LABEL__')) ||
+        (github.event_name == 'issue_comment' && (contains(github.event.comment.body, '__MENTION_IMPLEMENT__') || contains(github.event.comment.body, '__MENTION_REVIEW__')))
+      )
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.route.outputs.mode }}
+      ref: ${{ steps.route.outputs.ref }}
+      issue_number: ${{ steps.route.outputs.issue_number }}
+      source_issue_number: ${{ steps.route.outputs.source_issue_number }}
+      trigger_kind: ${{ steps.route.outputs.trigger_kind }}
+      trigger_comment_url: ${{ steps.route.outputs.trigger_comment_url }}
+      account_secret: ${{ steps.route_account.outputs.account_secret }}
+      account_owner: ${{ steps.route_account.outputs.account_owner }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .claude/aidd-orchestrator.json
+          sparse-checkout-cone-mode: false
+
+      - name: Resolve Anthropic account by assignee then sender
+        id: route_account
+        run: |
+          CONFIG=.claude/aidd-orchestrator.json
+          ASSIGNEE='${{ github.event.issue.assignees[0].login }}'
+          SENDER='${{ github.event.sender.login }}'
+          KEY=""
+          if [ -n "$ASSIGNEE" ] && [ "$ASSIGNEE" != "null" ]; then
+            KEY=$(jq -r --arg u "$ASSIGNEE" '.claude_action_auth.account_routing[$u] // empty' "$CONFIG")
+          fi
+          if [ -z "$KEY" ]; then
+            KEY=$(jq -r --arg u "$SENDER" '.claude_action_auth.account_routing[$u] // empty' "$CONFIG")
+          fi
+          if [ -z "$KEY" ]; then
+            KEY=$(jq -r '.claude_action_auth.default_secret_name' "$CONFIG")
+          fi
+          OWNER="${ASSIGNEE:-$SENDER}"
+          {
+            echo "account_secret=$KEY"
+            echo "account_owner=$OWNER"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Route to run or review and capture trigger context
+        id: route
+        run: |
+          NUM="${{ github.event.issue.number }}"
+          IS_PR="${{ github.event.issue.pull_request != null }}"
+          EVENT_NAME="${{ github.event_name }}"
+          LABEL_NAME='${{ github.event.label.name }}'
+          COMMENT_BODY='${{ github.event.comment.body }}'
+          COMMENT_URL='${{ github.event.comment.html_url }}'
+          # Trigger kind: `comment` when fired by issue_comment, else `label`.
+          if [ "$EVENT_NAME" = "issue_comment" ]; then
+            TRIGGER_KIND="comment"
+          else
+            TRIGGER_KIND="label"
+          fi
+          # Detect human intent (implement vs review).
+          IMPLEMENT_INTENT="false"
+          REVIEW_INTENT="false"
+          case "$LABEL_NAME" in
+            __TO_IMPLEMENT_LABEL__) IMPLEMENT_INTENT="true" ;;
+            __TO_REVIEW_LABEL__)    REVIEW_INTENT="true" ;;
+          esac
+          case "$COMMENT_BODY" in
+            *__MENTION_IMPLEMENT__*) IMPLEMENT_INTENT="true" ;;
+            *__MENTION_REVIEW__*)    REVIEW_INTENT="true" ;;
+          esac
+
+          post_skip () {
+            local body="$1"
+            gh issue comment "$NUM" --repo "$GITHUB_REPOSITORY" --body "$body" >/dev/null || true
+          }
+
+          if [ "$IS_PR" = "true" ]; then
+            # Event posted on a PR -> review that PR directly.
+            REF=$(gh pr view "$NUM" --repo "$GITHUB_REPOSITORY" --json headRefName --jq .headRefName)
+            {
+              echo "mode=review"
+              echo "ref=$REF"
+              echo "issue_number=$NUM"
+              echo "trigger_kind=$TRIGGER_KIND"
+              echo "trigger_comment_url=$COMMENT_URL"
+            } >> "$GITHUB_OUTPUT"
+          else
+            # Event posted on an issue; look for an open PR closing it.
+            PR_NUM=$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,body \
+              --jq "[.[] | select(.body | test(\"(?i)\\\\b(Closes|Fixes|Resolves)\\\\s+#${NUM}\\\\b\"))][0].number" || echo "")
+            if [ -n "$PR_NUM" ] && [ "$PR_NUM" != "null" ]; then
+              if [ "$IMPLEMENT_INTENT" = "true" ]; then
+                # Issue already has an open PR; refuse to re-run implementation.
+                post_skip "Skipping: this issue already has an open PR (#$PR_NUM). Comment on that PR (or apply \`__TO_REVIEW_LABEL__\` on this issue) to request changes; do not re-trigger \`__TO_IMPLEMENT_LABEL__\`."
+                echo "mode=skip" >> "$GITHUB_OUTPUT"
+              else
+                REF=$(gh pr view "$PR_NUM" --repo "$GITHUB_REPOSITORY" --json headRefName --jq .headRefName)
+                {
+                  echo "mode=review"
+                  echo "ref=$REF"
+                  echo "issue_number=$PR_NUM"
+                  echo "source_issue_number=$NUM"
+                  echo "trigger_kind=$TRIGGER_KIND"
+                  echo "trigger_comment_url=$COMMENT_URL"
+                } >> "$GITHUB_OUTPUT"
+              fi
+            else
+              if [ "$REVIEW_INTENT" = "true" ] && [ "$IMPLEMENT_INTENT" != "true" ]; then
+                # Review intent on an issue with no open PR -> nothing to review.
+                post_skip "Skipping: cannot review issue #$NUM because no open PR closes it. Apply \`__TO_IMPLEMENT_LABEL__\` (or comment \`__MENTION_IMPLEMENT__\`) to start the implementation flow."
+                echo "mode=skip" >> "$GITHUB_OUTPUT"
+              else
+                {
+                  echo "mode=run"
+                  echo "ref=__DEFAULT_BRANCH__"
+                  echo "issue_number=$NUM"
+                  echo "trigger_kind=$TRIGGER_KIND"
+                  echo "trigger_comment_url=$COMMENT_URL"
+                } >> "$GITHUB_OUTPUT"
+              fi
+            fi
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  run:
+    needs: dispatch
+    if: needs.dispatch.outputs.mode == 'run'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.dispatch.outputs.ref }}
+          fetch-depth: 0
+
+      - name: Run aidd-orchestrator pipeline
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: "Use skill aidd-orchestrator:00-async-dev with action=run on issue #${{ needs.dispatch.outputs.issue_number }} (trigger_kind=${{ needs.dispatch.outputs.trigger_kind }}, trigger_comment_url=${{ needs.dispatch.outputs.trigger_comment_url }}). Fetch every comment newer than the last bot activity on the issue and feed them to the SDLC delegation as additional user direction."
+          __CLAUDE_AUTH_LINE__
+          __GITHUB_WRITE_TOKEN_LINE__
+          plugins: |
+            aidd-orchestrator@aidd-framework
+            aidd-dev@aidd-framework
+          plugin_marketplaces: |
+            https://x-access-token:${{ secrets.__MARKETPLACE_TOKEN_NAME__ }}@github.com/__MARKETPLACE_REPO__.git
+          claude_args: --permission-mode bypassPermissions
+          show_full_output: true
+
+      - name: Finalize run (audit + labels + marker)
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.__GITHUB_WRITE_SECRET__ }}
+          ISSUE_NUMBER: ${{ needs.dispatch.outputs.issue_number }}
+          JOB_STATUS: ${{ job.status }}
+          WORKING_LABEL: __WORKING_LABEL__
+          AWAITING_LABEL: __AWAITING_LABEL__
+          BLOCKED_LABEL: __BLOCKED_LABEL__
+        run: |
+          set +e
+          RESULT="${RUNNER_TEMP}/run-result.json"
+          # Decide outcome by observing reality, regardless of what the agent reported.
+          observed_pr=$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,body \
+            --jq "[.[] | select(.body | test(\"(?i)\\\\b(Closes|Fixes|Resolves)\\\\s+#${ISSUE_NUMBER}\\\\b\"))][0].number // empty")
+          if [ -s "$RESULT" ]; then
+            run_id=$(jq -r '.run_id // empty' "$RESULT")
+            agent_error=$(jq -r '.error // empty' "$RESULT")
+          fi
+          [ -z "$run_id" ] && run_id="auto-$(date -u +%Y%m%dT%H%M%SZ)-i${ISSUE_NUMBER}"
+          if [ -n "$observed_pr" ]; then
+            outcome="success"
+            pr_number="$observed_pr"
+            error=""
+          else
+            outcome="blocked"
+            pr_number=""
+            error="${agent_error:-no open PR closes #${ISSUE_NUMBER}}"
+          fi
+          if [ "$JOB_STATUS" != "success" ] && [ "$outcome" = "success" ]; then
+            outcome="recovered"
+            error="${error:-claude-code-action exited non-zero but a closing PR exists}"
+          elif [ "$JOB_STATUS" != "success" ] && [ "$outcome" != "success" ]; then
+            outcome="blocked"
+            error="${error:-claude-code-action exited with status $JOB_STATUS}"
+          fi
+          audit_path="aidd_docs/async-runs/$(date -u +%Y_%m)/${run_id}.json"
+          if [ ! -s "$RESULT" ]; then
+            jq -n --arg run_id "$run_id" --arg outcome "$outcome" --arg pr "$pr_number" --arg err "$error" --arg issue "$ISSUE_NUMBER" \
+              '{run_id:$run_id, outcome:$outcome, issue_number:($issue|tonumber), pr_number:(if $pr=="" then null else ($pr|tonumber) end), error:(if $err=="" then null else $err end), source:"workflow-fallback"}' > "$RESULT"
+          fi
+          # Push the audit only when a PR exists (so it lands on the feature branch). On `blocked` outcome the
+          # completion marker comment is the audit trail; avoid polluting the default branch.
+          if [ -n "$pr_number" ]; then
+            branch=$(gh pr view "$pr_number" --repo "$GITHUB_REPOSITORY" --json headRefName --jq .headRefName)
+            existing_sha=$(gh api "repos/$GITHUB_REPOSITORY/contents/$audit_path?ref=$branch" --jq .sha 2>/dev/null || echo "")
+            content_b64=$(base64 < "$RESULT" | tr -d '\n')
+            payload=$(jq -n --arg msg "chore(orchestrator): record async run audit $run_id" \
+              --arg content "$content_b64" --arg branch "$branch" --arg sha "$existing_sha" \
+              '{message:$msg, content:$content, branch:$branch} + (if $sha == "" then {} else {sha:$sha} end)')
+            gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$audit_path" --input - <<< "$payload" >/dev/null || true
+          fi
+          # Transition issue labels.
+          gh api -X DELETE "repos/$GITHUB_REPOSITORY/issues/$ISSUE_NUMBER/labels/$(printf '%s' "$WORKING_LABEL" | jq -sRr @uri)" >/dev/null 2>&1 || true
+          if [ "$outcome" = "blocked" ]; then
+            new_label="$BLOCKED_LABEL"
+            gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body "Async run blocked: ${error:-no PR opened}." >/dev/null || true
+          else
+            new_label="$AWAITING_LABEL"
+          fi
+          gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$ISSUE_NUMBER/labels" -f "labels[]=$new_label" >/dev/null || true
+          # Completion marker (idempotent via HTML token); attach to PR if one exists, otherwise to the issue.
+          marker_target="$ISSUE_NUMBER"
+          [ -n "$pr_number" ] && marker_target="$pr_number"
+          existing=$(gh api "repos/$GITHUB_REPOSITORY/issues/$marker_target/comments" \
+            --jq "[.[] | select(.body | contains(\"aidd-orchestrator:run-complete run_id=$run_id\"))] | length")
+          if [ "$existing" = "0" ]; then
+            marker_body=$(printf '<!-- aidd-orchestrator:run-complete run_id=%s -->\n\nAsync run `%s`. Audit: `%s`.' "$run_id" "$outcome" "$audit_path")
+            gh issue comment "$marker_target" --repo "$GITHUB_REPOSITORY" --body "$marker_body" >/dev/null || true
+          fi
+
+  review:
+    needs: dispatch
+    if: needs.dispatch.outputs.mode == 'review'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.dispatch.outputs.ref }}
+          fetch-depth: 0
+
+      - name: Run aidd-orchestrator review loop
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: "Use skill aidd-orchestrator:00-async-dev with action=review on PR #${{ needs.dispatch.outputs.issue_number }} (trigger_kind=${{ needs.dispatch.outputs.trigger_kind }}, trigger_comment_url=${{ needs.dispatch.outputs.trigger_comment_url }}, source_issue_number=${{ needs.dispatch.outputs.source_issue_number }}). Collect comments from both the PR and its linked issue newer than the last iteration before deciding stop vs continue."
+          __CLAUDE_AUTH_LINE__
+          __GITHUB_WRITE_TOKEN_LINE__
+          plugins: |
+            aidd-orchestrator@aidd-framework
+            aidd-dev@aidd-framework
+          plugin_marketplaces: |
+            https://x-access-token:${{ secrets.__MARKETPLACE_TOKEN_NAME__ }}@github.com/__MARKETPLACE_REPO__.git
+          claude_args: --permission-mode bypassPermissions
+          show_full_output: true
+
+      - name: Finalize review (marker + labels)
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.__GITHUB_WRITE_SECRET__ }}
+          PR_NUMBER: ${{ needs.dispatch.outputs.issue_number }}
+          JOB_STATUS: ${{ job.status }}
+          WORKING_LABEL: __WORKING_LABEL__
+          AWAITING_LABEL: __AWAITING_LABEL__
+          BLOCKED_LABEL: __BLOCKED_LABEL__
+        run: |
+          set +e
+          RESULT="${RUNNER_TEMP}/run-result.json"
+          if [ -s "$RESULT" ]; then
+            run_id=$(jq -r '.run_id // empty' "$RESULT")
+            stop_reason=$(jq -r '.stop_reason // "no_comments"' "$RESULT")
+          else
+            stop_reason="agent-no-record"
+          fi
+          [ -z "$run_id" ] && run_id="auto-$(date -u +%Y%m%dT%H%M%SZ)-pr${PR_NUMBER}"
+          # Resolve the linked issue to transition its label.
+          issue_number=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json closingIssuesReferences --jq '.closingIssuesReferences[0].number // empty')
+          # Pick the terminal label based on stop_reason.
+          case "$stop_reason" in
+            blocked_label) new_label="$BLOCKED_LABEL" ;;
+            *)             new_label="$AWAITING_LABEL" ;;
+          esac
+          if [ -n "$issue_number" ]; then
+            gh api -X DELETE "repos/$GITHUB_REPOSITORY/issues/$issue_number/labels/$(printf '%s' "$WORKING_LABEL" | jq -sRr @uri)" >/dev/null 2>&1 || true
+            gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$issue_number/labels" -f "labels[]=$new_label" >/dev/null || true
+          fi
+          # Post a fallback summary only when the agent has not already produced one.
+          agent_summary_count=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments" \
+            --jq "[.[] | select(.body | test(\"(?i)(review loop summary|async review summary)\"))] | length")
+          if [ -s "${RUNNER_TEMP}/run-summary.md" ]; then
+            [ "$agent_summary_count" = "0" ] && gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "${RUNNER_TEMP}/run-summary.md" >/dev/null || true
+          elif [ "$agent_summary_count" = "0" ]; then
+            summary_body=$(printf '## Async review summary\n\n**Stop reason** -- `%s`\n**Run id** -- `%s`\n_No iteration summary recorded by the agent; see workflow logs for details._' "$stop_reason" "$run_id")
+            gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body "$summary_body" >/dev/null || true
+          fi
+          # Completion marker (idempotent).
+          existing=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments" \
+            --jq "[.[] | select(.body | contains(\"aidd-orchestrator:review-complete run_id=$run_id\"))] | length")
+          if [ "$existing" = "0" ]; then
+            marker_body=$(printf '<!-- aidd-orchestrator:review-complete run_id=%s -->\n\nAsync review complete (`%s`).' "$run_id" "$stop_reason")
+            gh issue comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body "$marker_body" >/dev/null || true
+          fi

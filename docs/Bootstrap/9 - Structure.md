@@ -1,6 +1,6 @@
 ## 📦 Structure Complète du Projet  
 
-### 🏗️ Backend (Java Spring Boot / NestJS en Clean Architecture)  
+### 🏗️ Backend (Java Spring Boot en Clean Architecture)  
 📂 `src/main/java/com/neosoft/practice_software/`  
 - 📁 `domain/` → **Entités uniquement**.  
 - 📁 `application/`  
@@ -22,7 +22,7 @@
 
 ### 📊 Diagramme de l'Architecture
 
-Pour une vue d'ensemble de l'architecture du projet, veuillez consulter le [diagramme d'architecture Java Spring boot](../../backend/springboot/docs/clean-archi-diagram.md) ou [diagramme d'architecture NestJS](../../backend/nestjs/docs/clean-archi-nestjs.md).
+Pour une vue d'ensemble de l'architecture du projet, veuillez consulter le [diagramme d'architecture Java Spring Boot](../../backend/springboot/docs/clean-archi-diagram.md).
 
 
 

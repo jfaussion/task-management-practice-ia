@@ -1,50 +1,104 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- SYNC IMPACT REPORT (temporary - remove before commit)
+Version change: 0.0.0 -> 1.0.0
+Modified principles: none (first ratification; all placeholders replaced)
+Added sections: Core Principles (5), Technical Constraints, Development Workflow
+Removed sections: none
+Deferred TODOs: RATIFICATION_DATE marked TODO (no prior adoption date found in repo)
+-->
+
+# Task Management Practice IA Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Hexagonal Architecture (NON-NEGOTIABLE)
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+The backend MUST follow hexagonal architecture with three layers: `application`
+(dao, service), `domain`, and `infrastructure`. Business logic lives in
+`application/service`; HTTP controllers live in `infrastructure`; business rules
+live in `domain`. No layer may bypass another (e.g., a controller must not call
+a dao directly).
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+Rationale: keeps the single Spring Boot backend (`backend/springboot`) testable
+and decoupled from transport concerns; every business API change is made there.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Test-First (NON-NEGOTIABLE)
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+Tests are written before or alongside implementation and MUST pass before code
+is considered done. Backend tests use JUnit via Maven; frontend tests use Karma
++ Jasmine against ChromeHeadless. Tests live next to their code
+(`src/test` backend, `*.spec.ts` frontend). The full suite runs via
+`./scripts/test.sh`.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Rationale: this project exists to demonstrate AI-driven development practices
+(test generation, bug fixing); a green suite is the proof of correctness.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Transactional Integrity
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Business operations that mutate more than one aggregate MUST be wrapped in a
+transaction so partial writes cannot leave the data inconsistent. Assignment
+limits per user MUST be enforced atomically with the assignment itself.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Rationale: task assignment has a per-user limit; a non-atomic write could
+over-assign a user and corrupt the kanban state.
+
+### IV. Schema by Migration Only
+
+Every database schema change MUST go through a Liquibase changelog. Manual
+edits to PostgreSQL are forbidden. The reference schema lives in
+`docs/Architecture/db-design.md`. Local reset goes through
+`./scripts/setup-db.sh` (PostgreSQL via Docker).
+
+Rationale: PostgreSQL is the only state outside the repository; migrations keep
+it reproducible for every contributor.
+
+### V. Simplicity & YAGNI
+
+Start simple. Do not add abstractions, dependencies, or features beyond the
+current need. The stack is fixed: Spring Boot (Java 21), Angular standalone,
+Tailwind CSS, RxJS, PostgreSQL. New third-party services require explicit
+justification.
+
+Rationale: the project is an exercise/demonstration base; complexity dilutes
+the AIDD demonstration value.
+
+## Technical Constraints
+
+- REST API only, all routes prefixed `/api/v1`. Path parameters for identifiers.
+  Contract specs live in `docs/Architecture/url-api-structure.md` and
+  `docs/Architecture/db-design.md`.
+- Frontend calls the backend exclusively through the dev proxy
+  (`proxy.conf.json`); no direct DB access from the frontend.
+- UI styling uses Tailwind CSS 4; no heavy component CSS framework. Reusable
+  UI components live in `frontend/src/app/ui`.
+- CI (`.github/workflows/build.yml`) builds and tests both backends on every
+  push/PR to `main`. CI verifies; it does not deploy.
+- No authentication is in place; do not introduce security claims that assume
+  otherwise.
+
+## Development Workflow
+
+- Branches: `<type/ticket-short-description>` with types `feature`, `fix`,
+  `chore`. Main branch is `main`.
+- Commits: conventional commits, imperative mood, concise description
+  (`type(scope): description`).
+- Before commit: `cd frontend && ng build` (fast guard).
+- Before push: `./scripts/test.sh` (heavy guard, backend + frontend).
+- The AI MUST NOT commit or push without an explicit user request.
+- On failure, run one agent per failing assertion (build / tests / rules).
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other development practices in this repository.
+Where a practice conflicts with a principle here, the constitution wins.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+- **Amendments**: propose changes via PR to this file; document rationale,
+  affected principles, and any migration needed for existing code.
+- **Versioning**: semantic versioning. MAJOR = principle removed or redefined
+  incompatibly; MINOR = new principle or section added or materially expanded;
+  PATCH = wording, typos, clarifications.
+- **Compliance review**: every PR/review MUST verify the coding assertions in
+  `aidd_docs/memory/coding-assertions.md` pass and that no principle is
+  violated. Complexity beyond the stated need MUST be justified in the PR.
+- Runtime development guidance lives in `aidd_docs/memory/` (project memory).
+
+**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE): first ratification, original adoption date unknown | **Last Amended**: 2026-11-20

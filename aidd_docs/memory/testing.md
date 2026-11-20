@@ -8,15 +8,13 @@ Comment le projet est testé : les couches, les outils et les conventions. Où v
 
 ## Outils
 
-- Spring Boot : JUnit (via Maven).
-- NestJS : runner par défaut (`npm test`).
-- .NET : `dotnet test`.
+- Backend : JUnit (via Maven).
 - Frontend : Karma + Jasmine, ChromeHeadless en CI.
 
 ## Conventions
 
-- Les tests vivent à côté du code (`*.spec.ts` côté frontend, `src/test` côté NestJS).
-- La CI (`.github/workflows/build.yml`) lance les tests des 4 variantes sur chaque push/PR vers `main`.
+- Les tests vivent à côté du code (`*.spec.ts` côté frontend, `src/test` côté backend).
+- La CI (`.github/workflows/build.yml`) lance les tests backend et frontend sur chaque push/PR vers `main`.
 
 ## Run
 

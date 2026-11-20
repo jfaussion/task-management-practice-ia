@@ -5,7 +5,7 @@ Ce que ce projet est, le problème qu'il résout et son langage métier. Le « p
 ## Ce que c'est
 
 - Application de gestion de tâches (monorepo) qui démontre l'usage de l'IA dans le développement logiciel : génération de tests, documentation et correction de bugs.
-- Le dépôt propose **3 backends équivalents** (Spring Boot, NestJS, .NET) : l'utilisateur choisit la techno qui lui convient.
+- Backend unique en Spring Boot (`backend/springboot`).
 
 ## Pourquoi il existe
 

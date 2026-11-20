@@ -4,7 +4,7 @@ Le magasin de données : son type, les entités principales et les conventions. 
 
 ## Setup
 
-- PostgreSQL, migrations Liquibase (côté Spring Boot), Prisma (côté NestJS). Config dans `backend/springboot/src/main/resources` et `backend/nestjs/prisma/`.
+- PostgreSQL, migrations Liquibase. Config dans `backend/springboot/src/main/resources`.
 - Lancement local : `./scripts/setup-db.sh` (PostgreSQL via Docker).
 
 ## Entités principales

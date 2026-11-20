@@ -16,12 +16,10 @@ Le garde lourd.
 
 | Ordre | Commande | Vérifie |
 | ----- | -------- | ------- |
-| 1 | `./scripts/test.sh` | tests backend (variante visée) + frontend |
+| 1 | `./scripts/test.sh` | tests backend + frontend |
 
-Commandes par backend :
-- Spring Boot : `cd backend/springboot && mvn clean package`
-- NestJS : `cd backend/nestjs && npm test`
-- .NET : `cd backend/dotnet/src/TaskManager && dotnet test`
+Commandes par cible :
+- Backend : `cd backend/springboot && mvn clean package`
 - Frontend : `cd frontend && ng test -- --browsers=ChromeHeadless --watch=false`
 
 ## Comportement

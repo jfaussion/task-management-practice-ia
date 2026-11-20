@@ -5,8 +5,6 @@ La disposition macro : les zones de premier niveau et ce que chacune contient. U
 ```mermaid
 flowchart TD
     ROOT[monorepo] --> SB[backend/springboot]
-    ROOT --> NJ[backend/nestjs]
-    ROOT --> DN[backend/dotnet]
     ROOT --> FE[frontend]
     ROOT --> SC[scripts]
     ROOT --> DOCS[docs + aidd_docs]
@@ -14,9 +12,7 @@ flowchart TD
 
 ## Zones
 
-- `backend/springboot` : API Spring Boot (variante principale de référence), hexagonale (`application`, `domain`, `infrastructure`).
-- `backend/nestjs` : API NestJS équivalente, ORM Prisma (`prisma/`, code dans `generated/`).
-- `backend/dotnet` : API .NET 8 équivalente (`src/TaskManager`).
+- `backend/springboot` : API Spring Boot, hexagonale (`application`, `domain`, `infrastructure`).
 - `frontend` : application Angular 19 (zone `ui` : `kanban`, `task-card`, `task-form`).
 - `scripts/` : automatisation (`run.sh`, `build.sh`, `test.sh`, `setup-db.sh`).
 - `docs/` : documentation projet (bootstrap, architecture). `aidd_docs/` : mémoire et contexte IA.

@@ -4,7 +4,7 @@ Où le projet tourne et comment il se livre : CI/CD, environnements et release.
 
 ## Pipeline
 
-- GitHub Actions (`.github/workflows/build.yml`) : build + tests des 4 variantes (Spring Boot, NestJS, .NET, Angular) sur push et PR vers `main`.
+- GitHub Actions (`.github/workflows/build.yml`) : build + tests backend (Spring Boot) et frontend (Angular) sur push et PR vers `main`.
 - Pas de déploiement automatique en place : la CI vérifie, elle ne livre pas.
 
 ```mermaid

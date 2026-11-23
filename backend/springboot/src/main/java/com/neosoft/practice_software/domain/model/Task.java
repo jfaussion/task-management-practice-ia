@@ -2,6 +2,8 @@ package com.neosoft.practice_software.domain.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,4 +26,5 @@ public class Task {
     private LocalDateTime updatedAt;
     private UUID assigneeId;
     private User assignee;
+    private List<Subtask> subtasks = new ArrayList<>();
 } 

@@ -1,0 +1,30 @@
+<form (ngSubmit)="onSubmit()" class="mb-2 flex items-start gap-2 rounded border border-blue-200 bg-blue-50 p-2">
+  <div class="flex-1">
+    <input
+      [(ngModel)]="title"
+      name="title"
+      type="text"
+      maxlength="220"
+      data-testid="subtask-title-input"
+      class="w-full rounded border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none"
+      placeholder="Titre de la sous-tâche"
+    />
+    @if (error()) {
+      <p class="mt-1 text-xs text-red-600">{{ error() }}</p>
+    }
+  </div>
+  <button
+    type="submit"
+    [disabled]="isSubmitting()"
+    class="rounded bg-blue-600 px-2 py-1 text-xs text-white hover:bg-blue-700 disabled:opacity-50"
+  >
+    {{ isSubmitting() ? '...' : (subtask ? 'Renommer' : 'Ajouter') }}
+  </button>
+  <button
+    type="button"
+    (click)="onCancel()"
+    class="rounded border border-gray-300 px-2 py-1 text-xs text-gray-700 hover:bg-gray-100"
+  >
+    Annuler
+  </button>
+</form>

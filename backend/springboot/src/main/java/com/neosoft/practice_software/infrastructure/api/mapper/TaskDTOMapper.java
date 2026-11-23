@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Mapper for converting between TaskDTO and Task (Business Object).
  */
-@Mapper(componentModel = "spring", uses = {UserDTOMapper.class})
+@Mapper(componentModel = "spring", uses = {UserDTOMapper.class, SubtaskDTOMapper.class})
 public interface TaskDTOMapper {
     
     /**

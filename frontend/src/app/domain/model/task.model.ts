@@ -1,3 +1,5 @@
+import { Subtask } from './subtask.model';
+
 export type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';
 export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH';
 
@@ -11,6 +13,7 @@ export interface Task {
   createdAt?: string;
   updatedAt?: string;
   assigneeId?: string;
+  subtasks?: Subtask[];
 }
 
 export interface CreateTaskRequest {

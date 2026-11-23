@@ -89,4 +89,11 @@ databaseChangeLog:
             constraintName: uk_tasks_assignee_title
         - sqlFile:
             path: 002-init-tasks.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: 3
+      author: jeremie
+      changes:
+        - sqlFile:
+            path: 003-add-subtasks.sql
             relativeToChangelogFile: true 

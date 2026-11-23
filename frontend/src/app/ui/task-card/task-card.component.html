@@ -2,14 +2,14 @@
   <div class="mb-2 flex items-start justify-between">
     <h3 class="font-medium text-gray-800">{{ task.title }}</h3>
     <div class="flex gap-1">
-      <button 
+      <button
         (click)="onEdit()"
         class="text-gray-400 hover:text-blue-600"
         title="Edit"
       >
         ✏️
       </button>
-      <button 
+      <button
         (click)="onDelete()"
         class="text-gray-400 hover:text-red-600"
         title="Delete"
@@ -30,7 +30,7 @@
       </span>
     }
 
-    <select 
+    <select
       (change)="onStatusChange($event)"
       class="rounded border border-gray-300 px-2 py-1 text-xs"
     >
@@ -47,4 +47,92 @@
       Due: {{ task.dueDate | date:'shortDate' }}
     </p>
   }
+
+  @if (subtasks().length > 0) {
+    <div class="mt-2 flex items-center justify-between">
+      <span class="text-xs font-medium text-gray-500">Sous-tâches</span>
+      <button
+        (click)="toggleCollapsed()"
+        data-testid="collapse-toggle"
+        class="text-xs text-gray-500 hover:text-gray-700"
+      >
+        {{ collapsed() ? 'Déplier' : 'Replier' }}
+      </button>
+    </div>
+
+    @if (progressPercent() !== null) {
+      <div data-testid="progress-bar" class="my-2">
+        <div class="mb-1 flex items-center justify-between text-xs text-gray-600">
+          <span>Progression</span>
+          <span data-testid="progress-label">{{ progressPercent() }} %</span>
+        </div>
+        <div class="h-2 w-full rounded bg-gray-200">
+          <div
+            class="h-2 rounded bg-blue-600 transition-all"
+            [style.width.%]="progressPercent()"
+          ></div>
+        </div>
+      </div>
+    }
+
+    @if (!collapsed()) {
+      <div class="mt-1 flex flex-col gap-1">
+        @for (subtask of subtasks(); track subtask.id) {
+          <div
+            data-testid="subtask-item"
+            class="flex items-center gap-1 rounded border border-gray-100 bg-gray-50 px-2 py-1 text-sm"
+          >
+            <input
+              type="checkbox"
+              [checked]="subtask.done"
+              (change)="onToggleDone(subtask, $event)"
+              class="h-3.5 w-3.5"
+            />
+            <span class="flex-1 truncate" [class.line-through]="subtask.done" [class.text-gray-400]="subtask.done">
+              {{ subtask.title }}
+            </span>
+            <button
+              (click)="onEditSubtask(subtask)"
+              data-testid="edit-subtask"
+              class="text-gray-400 hover:text-blue-600"
+              title="Renommer"
+            >
+              ✏️
+            </button>
+            <button
+              (click)="onDeleteSubtask(subtask)"
+              data-testid="delete-subtask"
+              class="text-gray-400 hover:text-red-600"
+              title="Supprimer"
+            >
+              🗑️
+            </button>
+          </div>
+        }
+      </div>
+    }
+  }
+
+  @if (listError()) {
+    <p class="mt-2 text-xs text-red-600">{{ listError() }}</p>
+  }
+
+  <div class="mt-2">
+    @if (showForm()) {
+      <app-subtask-form
+        [taskId]="task.id!"
+        [subtask]="editingSubtask()"
+        (saved)="onSubtaskSaved($event)"
+        (cancelled)="closeForm()"
+      />
+    } @else {
+      <button
+        (click)="onAddSubtask()"
+        data-testid="add-subtask"
+        class="text-xs text-gray-500 hover:text-blue-600"
+      >
+        + Sous-tâche
+      </button>
+    }
+  </div>
 </div>

@@ -1,14 +1,17 @@
-import { Component, Input, Output, EventEmitter, OnInit, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, HostListener, Input, Output, EventEmitter, OnInit, inject, signal } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
+import { LucideChevronDown, LucideX } from '@lucide/angular';
 import { TaskService } from '../../application/service/task.service';
 import { UserService } from '../../application/service/user.service';
 import { Task, TaskStatus, TaskPriority, CreateTaskRequest } from '../../domain/model/task.model';
 import { User } from '../../domain/model/user.model';
+import { PillButtonComponent } from '../neo/pill-button.component';
+import { IconButtonComponent } from '../neo/icon-button.component';
 
 @Component({
   selector: 'app-task-form',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule, PillButtonComponent, IconButtonComponent, LucideX, LucideChevronDown],
   templateUrl: './task-form.component.html',
   standalone: true
 })
@@ -89,5 +92,10 @@ export class TaskFormComponent implements OnInit {
     if ((event.target as HTMLElement).classList.contains('modal-backdrop')) {
       this.onClose();
     }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
+    this.onClose();
   }
 }

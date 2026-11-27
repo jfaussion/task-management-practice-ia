@@ -3,7 +3,7 @@
   "title": "Task 1",
   "description": "Description for task 1",
   "status": "TODO",
-  "priority": "High",
+  "priority": "HIGH",
   "dueDate": "2023-12-01",
   "createdAt": "2025-03-21T18:55:58.870344",
   "updatedAt": "2025-03-21T18:55:58.870344",

@@ -1,2 +1,73 @@
-/* You can add global styles to this file, and also import other style files */
+/* Charte web Néosoft : tokens Tailwind CSS v4 (source : Observatoire Néosoft #48). */
 @import 'tailwindcss';
+
+/* `static` : toujours émis, pour que les utilitaires aurora lisent les tokens via var(). */
+@theme static {
+  --color-neo-blue-dark: #051742;
+  --color-neo-blue: #0055ff;
+  --color-neo-blue-light: #ccdeff;
+  --color-neo-purple: #664fff;
+  /* Dérivé (hors charte) : texte violet lisible sur teinte violette claire. */
+  --color-neo-purple-deep: #3b27b8;
+  --color-neo-red: #ff5252;
+  /* Marque employeur uniquement : ne pas utiliser dans une interface produit. */
+  --color-neo-beige: #e8c8bc;
+}
+
+/*
+ * Polices : Montserrat (corps, poids 500 par défaut) est chargée par un <link>
+ * dans index.html. Chillax (titres) est auto-hébergée : déposer
+ * Chillax-Variable.woff2 + sa licence ITF FFL dans src/fonts/ puis décommenter
+ * le @font-face ci-dessous. En attendant, les titres retombent sur Montserrat.
+ *
+ * @font-face {
+ *   font-family: "Chillax";
+ *   src: url("./fonts/Chillax-Variable.woff2") format("woff2");
+ *   font-weight: 200 700;
+ *   font-display: swap;
+ * }
+ */
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Chillax", "Montserrat", ui-sans-serif, sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+  color: var(--color-neo-blue-dark);
+  font-weight: 500;
+}
+
+/*
+ * Aurora « tech » foncée (header) : radial-gradients superposés sur le bleu
+ * foncé de marque. Ni image ni filter: blur (coût de repaint au scroll mobile).
+ */
+@utility aurora-header {
+  background-color: var(--color-neo-blue-dark);
+  background-image:
+    radial-gradient(55% 160% at 100% 0%, color-mix(in srgb, var(--color-neo-blue) 60%, transparent) 0%, transparent 70%),
+    radial-gradient(35% 140% at 65% 120%, color-mix(in srgb, var(--color-neo-purple) 45%, transparent) 0%, transparent 70%);
+}
+
+/*
+ * Aurora claire en fond de page, fixée au viewport par un pseudo-élément
+ * (background-attachment: fixed n'est pas fiable sur iOS Safari). À poser
+ * sur <body> : les conteneurs intermédiaires ne doivent pas avoir de fond.
+ */
+@utility aurora-page {
+  position: relative;
+  isolation: isolate;
+  background-color: #ffffff;
+
+  &::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(45% 50% at 0% 10%, color-mix(in srgb, var(--color-neo-blue-light) 70%, transparent) 0%, transparent 70%),
+      radial-gradient(40% 45% at 100% 60%, color-mix(in srgb, var(--color-neo-purple) 14%, transparent) 0%, transparent 70%),
+      radial-gradient(50% 40% at 30% 100%, color-mix(in srgb, var(--color-neo-blue-light) 55%, transparent) 0%, transparent 70%);
+  }
+}

@@ -4,10 +4,11 @@ import { TaskService } from '../../application/service/task.service';
 import { Task, TaskStatus } from '../../domain/model/task.model';
 import { TaskCardComponent } from '../task-card/task-card.component';
 import { TaskFormComponent } from '../task-form/task-form.component';
+import { PillButtonComponent } from '../neo/pill-button.component';
 
 @Component({
   selector: 'app-kanban-board',
-  imports: [CommonModule, TaskCardComponent, TaskFormComponent],
+  imports: [CommonModule, TaskCardComponent, TaskFormComponent, PillButtonComponent],
   templateUrl: './kanban-board.component.html',
   standalone: true
 })
@@ -79,14 +80,5 @@ export class KanbanBoardComponent implements OnInit {
       'DONE': 'Done'
     };
     return titles[status];
-  }
-
-  getColumnColor(status: TaskStatus): string {
-    const colors: Record<TaskStatus, string> = {
-      'TODO': 'bg-gray-100',
-      'IN_PROGRESS': 'bg-blue-100',
-      'DONE': 'bg-green-100'
-    };
-    return colors[status];
   }
 }

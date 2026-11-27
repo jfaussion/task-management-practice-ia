@@ -1,10 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LucideChevronDown, LucidePencil, LucideTrash2 } from '@lucide/angular';
 import { Task, TaskStatus, TaskPriority } from '../../domain/model/task.model';
+import { IconButtonComponent } from '../neo/icon-button.component';
 
 @Component({
   selector: 'app-task-card',
-  imports: [CommonModule],
+  imports: [CommonModule, IconButtonComponent, LucidePencil, LucideTrash2, LucideChevronDown],
   templateUrl: './task-card.component.html',
   standalone: true
 })
@@ -18,12 +20,13 @@ export class TaskCardComponent {
   statuses: TaskStatus[] = ['TODO', 'IN_PROGRESS', 'DONE'];
 
   getPriorityColor(priority?: TaskPriority): string {
+    // Échelle d'intensité de la charte : une seule teinte violette.
     const colors: Record<TaskPriority, string> = {
-      LOW: 'bg-gray-200 text-gray-700',
-      MEDIUM: 'bg-yellow-200 text-yellow-800',
-      HIGH: 'bg-red-200 text-red-800'
+      LOW: 'bg-neo-purple/7 text-neo-blue-dark/70',
+      MEDIUM: 'bg-neo-purple/22 text-neo-purple-deep',
+      HIGH: 'bg-neo-purple text-white'
     };
-    return priority ? colors[priority] : 'bg-gray-200 text-gray-700';
+    return priority ? colors[priority] : 'bg-neo-purple/7 text-neo-blue-dark/70';
   }
 
   onEdit(): void {

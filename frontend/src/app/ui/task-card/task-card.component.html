@@ -1,50 +1,60 @@
-<div class="rounded-lg bg-white p-3 shadow-sm hover:shadow-md transition-shadow">
-  <div class="mb-2 flex items-start justify-between">
-    <h3 class="font-medium text-gray-800">{{ task.title }}</h3>
+<article class="rounded-2xl border border-neo-blue-light bg-white p-4 shadow-sm transition-shadow hover:shadow-md">
+  <div class="mb-2 flex items-start justify-between gap-2">
+    <h3 class="font-display text-lg font-semibold leading-snug text-neo-blue-dark">{{ task.title }}</h3>
     <div class="flex gap-1">
-      <button 
+      <button
+        app-icon-button
         (click)="onEdit()"
-        class="text-gray-400 hover:text-blue-600"
         title="Edit"
+        aria-label="Edit"
       >
-        ✏️
+        <svg lucidePencil class="h-5 w-5" aria-hidden="true"></svg>
       </button>
-      <button 
+      <button
+        app-icon-button
         (click)="onDelete()"
-        class="text-gray-400 hover:text-red-600"
         title="Delete"
+        aria-label="Delete"
       >
-        🗑️
+        <svg lucideTrash2 class="h-5 w-5" aria-hidden="true"></svg>
       </button>
     </div>
   </div>
 
   @if (task.description) {
-    <p class="mb-2 text-sm text-gray-600 line-clamp-2">{{ task.description }}</p>
+    <p class="mb-2 text-sm leading-relaxed text-neo-blue-dark/80 line-clamp-2">{{ task.description }}</p>
   }
 
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between gap-2">
     @if (task.priority) {
-      <span class="rounded px-2 py-0.5 text-xs {{ getPriorityColor(task.priority) }}">
+      <span class="rounded-full px-2.5 py-0.5 text-xs {{ getPriorityColor(task.priority) }}">
         {{ task.priority }}
       </span>
     }
 
-    <select 
-      (change)="onStatusChange($event)"
-      class="rounded border border-gray-300 px-2 py-1 text-xs"
-    >
-      @for (status of statuses; track status) {
-        <option [value]="status" [selected]="task.status === status">
-          {{ status }}
-        </option>
-      }
-    </select>
+    <div class="relative">
+      <select
+        (change)="onStatusChange($event)"
+        aria-label="Statut"
+        class="appearance-none rounded-full border border-neo-blue-dark/40 bg-white py-1.5 pl-3 pr-8 text-xs text-neo-blue-dark focus:border-neo-blue focus:outline-none focus:ring-2 focus:ring-neo-blue/30"
+      >
+        @for (status of statuses; track status) {
+          <option [value]="status" [selected]="task.status === status">
+            {{ status }}
+          </option>
+        }
+      </select>
+      <svg
+        lucideChevronDown
+        class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neo-blue-dark/60"
+        aria-hidden="true"
+      ></svg>
+    </div>
   </div>
 
   @if (task.dueDate) {
-    <p class="mt-2 text-xs text-gray-500">
+    <p class="mt-2 text-xs text-neo-blue-dark/60">
       Due: {{ task.dueDate | date:'shortDate' }}
     </p>
   }
-</div>
+</article>

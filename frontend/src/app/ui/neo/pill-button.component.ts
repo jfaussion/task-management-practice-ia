@@ -26,7 +26,9 @@ const SIZE_CLASSES: Record<PillButtonSize, string> = {
   standalone: true,
   template: '<ng-content />',
   host: {
-    '[class]': 'classes()'
+    '[class]': 'classes()',
+    '[attr.disabled]': 'disabled() ? "" : null',
+    '[attr.aria-disabled]': 'disabled() ? "true" : null'
   }
 })
 export class PillButtonComponent {
@@ -35,7 +37,7 @@ export class PillButtonComponent {
   disabled = input(false, { transform: booleanAttribute });
 
   classes = computed(() => [
-    'inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors',
+    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-colors',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
     'disabled:pointer-events-none disabled:opacity-40',
     VARIANT_CLASSES[this.variant()],

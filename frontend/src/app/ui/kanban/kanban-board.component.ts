@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TaskService } from '../../application/service/task.service';
 import { Task, TaskStatus } from '../../domain/model/task.model';
 import { TaskCardComponent } from '../task-card/task-card.component';
@@ -8,7 +8,7 @@ import { PillButtonComponent } from '../neo/pill-button.component';
 
 @Component({
   selector: 'app-kanban-board',
-  imports: [CommonModule, TaskCardComponent, TaskFormComponent, PillButtonComponent],
+  imports: [TaskCardComponent, TaskFormComponent, PillButtonComponent],
   templateUrl: './kanban-board.component.html',
   standalone: true
 })

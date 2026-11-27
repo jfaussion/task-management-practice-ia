@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, Output, EventEmitter, OnInit, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { LucideChevronDown, LucideX } from '@lucide/angular';
 import { TaskService } from '../../application/service/task.service';
@@ -11,7 +11,7 @@ import { IconButtonComponent } from '../neo/icon-button.component';
 
 @Component({
   selector: 'app-task-form',
-  imports: [CommonModule, FormsModule, PillButtonComponent, IconButtonComponent, LucideX, LucideChevronDown],
+  imports: [FormsModule, PillButtonComponent, IconButtonComponent, LucideX, LucideChevronDown],
   templateUrl: './task-form.component.html',
   standalone: true
 })
